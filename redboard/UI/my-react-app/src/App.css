@@ -1,0 +1,178 @@
+#root {
+  max-width: auto;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+}
+
+.card {
+  padding: 2em;
+}
+
+.read-the-docs {
+  color: #888;
+}
+
+:root {
+  --color-chart-1: rgb(246, 66, 66);
+  --color-chart-2: #519DE9;
+  --color-chart-3: #7CC674;
+  --color-chart-4: #EA5F89;
+  --color-chart-5: rgb(230, 104, 230);
+  --color-chart-6: #EF9234;
+  --color-chart-7: pink;
+  --color-chart-8: #73C5C5;
+  --color-chart-9: #F6D173;
+}
+
+.chart-container {
+  margin-right: 100px;
+}
+.switch-container {
+  display: flex; 
+  align-items: center;
+  justify-content: center; 
+  width: fit-content; 
+  margin-left: auto; 
+  height: 50px;
+  margin-right: 20px; 
+}
+.separator {
+  content: "";
+  display: block;
+  width: 1px;
+  height: 100%;
+  background-color: #090909;
+  margin-right: 20px; 
+  margin-left: 20px; 
+  
+}
+
+.tile-container {
+  width: 20%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.data-table {
+  width: 80%;
+  justify-content: center;
+  margin-top: 50px;
+  margin-bottom: 50px;
+  margin-left: auto;
+  margin-right: auto;
+  /* box-shadow: 0px px 10px rgba(0, 0, 0, 0.3); */
+  transform:  rotateX(0.5deg);
+  transition: transform 0.5s;
+}
+.data-table:hover {
+  transform: perspective(600px) rotateX(0deg);
+}
+
+.chart-tile {
+  background-color: #ffffff; 
+  margin-left: 150px;
+  margin-right: 150px;
+  padding: 0px;
+  box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.3); 
+  transform: rotateY(0deg) rotateX(2deg); 
+  transition: transform 0.5s;
+  border-radius: 35px;
+  
+}
+
+.chart-tile:hover {
+  transform: rotateY(0deg) rotateX(10deg);
+}
+
+.container-parent {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 50vw; 
+}
+
+.header {
+  display: flex;
+  background: #090909;
+  height: 130px; 
+  width: 100%;
+  filter: drop-shadow(0 0 2em #000000aa); 
+  border-bottom-left-radius: 50% 20%; 
+  border-bottom-right-radius: 50% 20%; 
+}
+
+.logo {
+  height: 50px; 
+  will-change: filter;
+  transition: filter 300ms;
+  height: 65px;
+  margin-top: 1px;
+  margin-right: 12px; 
+}
+
+.logo-container {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  justify-content: center;
+  padding: 0 10px;
+}
+
+.subtitle {
+  color: #ffffff;
+  font-size: 15px; 
+  width: 100%;
+  margin: 0;
+  margin-bottom: -5px; 
+  font-weight: normal; 
+  text-align: left;
+}
+
+.title {
+  color: #ffffff;
+  margin: 0;
+  font-size: 40px;
+  font-weight: normal; 
+  text-align: center;
+}
+
+.text-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.myToggleButtonGroup .MuiToggleButton-root {
+  width: 50px;
+}
+.switch-img {
+  width: 45px;
+  height: 45px;
+  padding-right: 20px;
+  padding-top: -2px;
+ 
+}
+.no-outline-button {
+  border: none;
+  outline: none;
+}
+.toggle-button {
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+}
+
+.filters {
+  margin: 10px 10px 10px 10px; 
+}
+
+.firstColumnCell {
+  padding-left: 20px;
+}
