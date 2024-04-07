@@ -71,19 +71,23 @@ const FilterDropdown = ({ handleFilterChange }) => {
                    
                   ],
                 },
-        
-        // Add more categories as needed
       ];
   
-    const customStyles = {
-      option: (provided, state) => ({
-        ...provided,
-        color: state.isSelected ? 'white' : 'black',
-        backgroundColor: state.isSelected ? 'blue' : 'white',
-        borderBottom: '1px solid black',
-      }),
+      const customStyles = {
+        option: (provided, state) => ({
+          ...provided,
+          color: state.isSelected ? 'white' : 'black',
+          backgroundColor: state.isSelected ? 'blue' : 'white',
+          borderBottom: '1px solid black',
+          margin: '5px',
+        }),
+        control: (provided) => ({
+          ...provided,
+          margin: '5px',
+          boxShadow: '0px 1px 1px 1px rgba(0, 0, 0, .3)'
+        }),
     };
-  
+    
     return (
       <Select
         closeMenuOnSelect={false}

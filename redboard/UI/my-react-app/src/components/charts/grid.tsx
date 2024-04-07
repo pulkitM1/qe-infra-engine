@@ -55,28 +55,37 @@ const rows = Array.from({length: 200}, (_, id) => ({
   disk: `${Math.floor(Math.random() * 500) + 500}GB`,
   tags: ['tag1', 'tag2', 'tag3'].filter(() => Math.random() > 0.5),
 }));
-export default function DataTable() {
+
+
+const DataTable = React.forwardRef((props, ref) => {
+  React.useImperativeHandle(ref, () => ({
+    getRows: () => rows,
+  }));
+
   return (
     <div className="data-table" style={{ height: '500px', marginTop: '85px' }}>
-      <DataGrid 
-        rows={rows} 
-        columns={columns} 
-        style={{
-          border: '0.6px solid black', 
-          '& .MuiDataGrid-columnsContainer': {
-            backgroundColor: '#fafafa',
-            fontWeight: 'bold', 
-            borderBottom: '1px solid black', 
-          },
-          '& .MuiDataGrid-columnSeparator': {
-            backgroundColor: 'black', 
-          },
-          '& .MuiDataGrid-cell': {
-            borderRight: '1px solid ',
-            backgroundColor: 'black', 
-          },
-        }} 
-      />
+  <DataGrid 
+  rows={rows} 
+  columns={columns} 
+  style={{
+    border: '0.6px solid black', 
+    boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)', // Add this line
+    '& .MuiDataGridColumnsContainer': {
+      backgroundColor: '#fafafa',
+      fontWeight: 'bold', 
+      borderBottom: '2px solid black', 
+    },
+    '& .MuiDataGridColumnSeparator': {
+      backgroundColor: 'black', 
+    },
+    '& .MuiDataGridCell': {
+      borderRight: '2px solid ',
+      backgroundColor: 'black', 
+    },
+  }} 
+/>
     </div>
   );
-}
+});
+
+export default DataTable;
