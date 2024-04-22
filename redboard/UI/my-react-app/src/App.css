@@ -18,7 +18,7 @@
   --color-chart-2: #519DE9;
   --color-chart-3: #7CC674;
   --color-chart-4: #EA5F89;
-  --color-chart-5: rgb(230, 104, 230);
+  --color-chart-5: #bd7ebe;
   --color-chart-6: #EF9234;
   --color-chart-7: pink;
   --color-chart-8: #73C5C5;
@@ -45,6 +45,7 @@
   height: 100%;
   background-color: #090909;
   margin-right: 20px; 
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); 
   margin-left: 20px; 
   
 }
@@ -62,7 +63,6 @@
   margin-bottom: 50px;
   margin-left: auto;
   margin-right: auto;
-  /* box-shadow: 0px px 10px rgba(0, 0, 0, 0.3); */
   transform:  rotateX(0.5deg);
   transition: transform 0.5s;
 }
@@ -96,7 +96,7 @@
 .header {
   display: flex;
   background: #090909;
-  height: 135px; 
+  height: 138px; 
   width: 100%;
   filter: drop-shadow(0 0 2em #000000aa); 
   border-bottom-left-radius: 50% 20%; 
@@ -182,4 +182,13 @@
   margin-right: 200px;
   height: 60px; 
   width: 60px; 
+}
+
+.center-line {
+  width: 10%; 
+  height: 2px;
+  background:#090909;
+  margin-top: 70px;
+  margin-bottom: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
 }

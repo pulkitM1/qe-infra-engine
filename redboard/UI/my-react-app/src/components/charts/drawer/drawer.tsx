@@ -4,7 +4,8 @@ import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import Typography from '@mui/material/Typography';
-import AddVmsDialog from '../../../AddVmsDialog'; // import the dialog component
+import AddVmsDialog from '../../../AddVmsDialog'; 
+import ReserveVmsDialog from '../../../reserveVmsDialog'; 
 
 interface Props {
   open: boolean;
@@ -13,6 +14,7 @@ interface Props {
 
 const AppDrawer: React.FC<Props> = ({ open, toggleDrawer }) => {
   const [addVmsOpen, setAddVmsOpen] = useState(false);
+  const [reserveVmsOpen, setReserveVmsOpen] = useState(false);
 
   const handleAddVmsOpen = () => {
     setAddVmsOpen(true);
@@ -22,18 +24,26 @@ const AppDrawer: React.FC<Props> = ({ open, toggleDrawer }) => {
     setAddVmsOpen(false);
   };
 
+  const handleReserveVmsOpen = () => { 
+    setReserveVmsOpen(true);
+  };
+
+  const handleReserveVmsClose = () => { 
+    setReserveVmsOpen(false);
+  };
+
   const list = () => (
     <div
       role="presentation"
       onClick={toggleDrawer(false)}
       onKeyDown={toggleDrawer(false)}
     >
-      <Typography variant="h6" component="div" sx={{ padding: '16px', textAlign: 'center', color: 'red', transition: 'all 0.3s ease', '&:hover': { textShadow: '0 0 10px red, 0 0 20px red, 0 0 30px red, 0 0 40px red' } }}> 
+      <Typography variant="h5" component="div" sx={{ padding: '21px', textAlign: 'center', color: 'red', textShadow: '0 0 8px rgba(255, 0, 0, 0.6)' ,transition: 'all 0.4s ease', '&:hover': { textShadow: '0 0 10px red, 0 0 20px red, 0 0 30px red, 0 0 40px red' } }}> 
         Red Tools
       </Typography>
       <List>
         {['Add VMs', 'Reserve VMs'].map((text, index) => (
-          <ListItem button key={text} onClick={text === 'Add VMs' ? handleAddVmsOpen : undefined}>
+          <ListItem button key={text} onClick={text === 'Add VMs' ? handleAddVmsOpen : text === 'Reserve VMs' ? handleReserveVmsOpen : undefined}>
             <ListItemText primary={text} style={{ textAlign: 'center' }} />
           </ListItem>
         ))}
@@ -52,6 +62,7 @@ const AppDrawer: React.FC<Props> = ({ open, toggleDrawer }) => {
         {list()}
       </Drawer>
       <AddVmsDialog open={addVmsOpen} handleClose={handleAddVmsClose} />
+      <ReserveVmsDialog open={reserveVmsOpen} handleClose={handleReserveVmsClose} /> {/* add the ReserveVmsDialog component */}
     </div>
   );
 }

@@ -14,24 +14,28 @@ import './App.css';
 
 function App() {
   const executorsData = [
-    { label: 'Category H', value: 15 },
-    { label: 'Category I', value: 10 },
+    { label: 'Failed Install', value: 1900 },
+    { label: 'Available', value: 1000 },
+    { label: 'Reserved', value: 1500 },
+    { label: 'Unavailable', value: 1000 },
+    { label: 'Bad Health', value: 750 },
   ];
 
   const nodesData = [
-    { label: 'Category N', value: 30 },
-    { label: 'Category O', value: 30 },
+    { label: 'Available', value: 200 },
+    { label: 'Unavailable', value: 500 },
+    { label: 'Bad Health', value: 250 },
   ];
 
   const anotherData = [
-    { label: 'Category A', value: 80 },
-    { label: 'Category B', value: 20 },
-    { label: 'Category C', value: 10 },
+    { label: 'NTP Absent', value: 80 },
+    { label: 'Disk Not Working', value: 20 },
+    { label: '> 97% Ram Utilised', value: 10 },
   ];
 
   const yetAnotherData = [
-    { label: 'Category E', value: 30 },
-    { label: 'Category F', value: 30 },
+    { label: 'Down for Repair', value: 30 },
+    { label: 'Bad Health', value: 110 },
   ];
 
   const [isOn, setIsOn] = useState('Executors'); 
@@ -77,7 +81,9 @@ function App() {
       <Header />
       <div className="switch-container">
         <AppDrawer open={drawerOpen} toggleDrawer={toggleDrawer} />
-        <FilterDropdown handleFilterChange={handleFilterChange} />
+        <div style={{ marginBottom: '20px' }}> {/* Add this div */}
+          <FilterDropdown handleFilterChange={handleFilterChange} />
+        </div> {/* And close it here */}
         <div className="separator"></div> 
         <img 
           src={image} 
@@ -90,27 +96,29 @@ function App() {
         <div className="separator"></div> 
         <MobileNavigationButton  style={{ color: 'black', marginRight: '300px' }} toggleDrawer={toggleDrawer}   />
       </div>
-      <hr style={{ border: 'none', borderBottom: '2px solid #090909' }} />
+  
+      <hr style={{ border: 'none', borderBottom: '2px solid #090909', boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)' }} />
       <div style={{ textAlign: 'left', marginTop: '40px', marginLeft: '0px' }}>
         <a href="https://couchbase.com" target="_blank">
         </a>
       </div>
       <div className="container-parent" style={{ width: '100vw', display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: '80px' }}>
-      <div className="tile-container">
-      <div className="chart-tile">
-      <div className="chart-container" style={{ width: '100%' }}>
-        <DoughnutChart data={chartData1} title={'States'} />
+        <div className="tile-container">
+          <div className="chart-tile">
+            <div className="chart-container" style={{ width: '100%' }}>
+              <DoughnutChart data={chartData1} title={'States'} />
+            </div>
+          </div>
+          <div className="chart-tile">
+            <div className="chart-container" style={{ width: '100%' }}>
+              <DoughnutChart data={chartData2} title={'Tags'} />
+            </div>
+          </div>
+        </div>
+        <div className="center-line"></div>
+        <DataTable />
       </div>
     </div>
-    <div className="chart-tile">
-      <div className="chart-container" style={{ width: '100%' }}>
-        <DoughnutChart data={chartData2} title={'Tags'} />
-      </div>
-    </div>
-  </div>
-  <DataTable />
-</div>
-      </div>
   );
 }
 

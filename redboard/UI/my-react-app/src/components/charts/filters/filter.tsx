@@ -1,104 +1,84 @@
-// FilterDropdown.tsx
+import * as React from 'react';
+import { Theme, useTheme } from '@mui/material/styles';
+import Input from '@mui/material/Input';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select, { SelectChangeEvent } from '@mui/material/Select';
+import ListSubheader from '@mui/material/ListSubheader';
 
-import React, { useState } from 'react';
-import Select, { components } from 'react-select';
-import makeAnimated from 'react-select/animated';
+const ITEM_HEIGHT = 48; 
+const ITEM_PADDING_TOP = 8;
 
-const { Option } = components;
-const AnimatedMulti = makeAnimated();
+const MenuProps = {
+  PaperProps: {
+    style: {
+      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP, 
+      width: 150, 
+    },
+  },
+};
 
-const CustomOption = (props) => (
-  <Option {...props}>
-    <input type="checkbox" checked={props.isSelected} onChange={() => null} />{' '}
-    <label>{props.label}</label>
-  </Option>
-);
+interface Filter {
+  heading: string;
+  options: string[];
+}
 
-const FilterDropdown = ({ handleFilterChange }) => {
-    const options = [
-        {
-          label: 'Category A',
-          options: [
-            { value: 'Category A', label: 60 },
-            { value: 'Subcategory A2', label: 'Subcategory A2' },
-          
-          ],
-        },
-        {
-          label: 'Category B',
-          options: [
-            { value: 'Subcategory B1', label: 'Subcategory B1' },
-            { value: 'Subcategory B2', label: 'Subcategory B2' },
-           
-          ],
-        },
-        {
-            label: 'Category E',
-            options: [
-              { value: 'Subcategory B1', label: 'Subcategory B1' },
-              { value: 'Subcategory B2', label: 'Subcategory B2' },
-            
-            ],
-          },
-          {
-            label: 'Category R',
-            options: [
-              { value: 'Subcategory R1', label: 'Subcategory R1' },
-              { value: 'Subcategory R3', label: 'Subcategory R4' },
-             
-            ],
-          },
-          {
-              label: 'Category C',
-              options: [
-                { value: 'Subcategory B1', label: 'Subcategory B1' },
-                { value: 'Subcategory B2', label: 'Subcategory B2' },
-               
-              ],
-            },{
-                label: 'Category D',
-                options: [
-                  { value: 'Subcategory B1', label: 'Subcategory B1' },
-                  { value: 'Subcategory B2', label: 'Subcategory B2' },
-                 
-                ],
-              },
-              {
-                  label: 'Category E',
-                  options: [
-                    { value: 'Subcategory B1', label: 'Subcategory B1' },
-                    { value: 'Subcategory B2', label: 'Subcategory B2' },
-                   
-                  ],
-                },
-      ];
-  
-      const customStyles = {
-        option: (provided, state) => ({
-          ...provided,
-          color: state.isSelected ? 'white' : 'black',
-          backgroundColor: state.isSelected ? 'blue' : 'white',
-          borderBottom: '1px solid black',
-          margin: '5px',
-        }),
-        control: (provided) => ({
-          ...provided,
-          margin: '5px',
-          boxShadow: '0px 1px 1px 1px rgba(0, 0, 0, .3)'
-        }),
-    };
-    
-    return (
-      <Select
-        closeMenuOnSelect={false}
-        components={{ Option: CustomOption, ...AnimatedMulti }}
-        isMulti
-        options={options}
-        onChange={(selectedOptions) => handleFilterChange(selectedOptions ? selectedOptions.map(option => option.value) : [])}
-        placeholder="Select filters..."
-        styles={customStyles}
-      />
-    );
+interface FilterDropdownProps {
+  initialSelectedOptions?: string[]; 
+}
+
+const filters: Filter[] = [
+  { heading: 'OS', options: ['Debian', 'Centos','Red Hat'] },
+  { heading: 'Pool ID', options: ['Regression', 'Magma', 'Failover'] },
+];
+
+function getStyles(name: string, selectedOptions: string[], theme: Theme) {
+  return {
+    fontWeight:
+      selectedOptions.indexOf(name) !== -1
+        ? theme.typography.fontWeightMedium
+        : theme.typography.fontWeightRegular,
   };
-  
-export default FilterDropdown;
+}
+
+export default function FilterDropdown({ initialSelectedOptions = [] }: FilterDropdownProps) {
+  const theme = useTheme();
+  const [selectedOptions, setSelectedOptions] = React.useState(initialSelectedOptions);
+
+  const handleChange = (event: SelectChangeEvent<string[]>) => {
+    setSelectedOptions(event.target.value);
+  };
+
+  return (
+    <div>
+      <FormControl sx={{ m: 1, width: '150px' , height: '10px'}}> 
+        <Select
+          multiple
+          displayEmpty
+          value={selectedOptions}
+          onChange={handleChange}
+          input={<Input style={{ padding: '0px 10px', outline: 'none' }} />}
+          renderValue={(selected) => {
+            if (selected.length === 0) {
+              return <em style={{ fontStyle: 'normal' }}>Filters</em>;
+            }
+
+            return selected.join(', ');
+          }}
+          MenuProps={MenuProps}
+          inputProps={{ 'aria-label': 'Filter options' }}
+        >
+     
+          {filters.map((filter, index) => [
+  <ListSubheader key={index} style={{ textAlign: 'center' }}>{filter.heading}</ListSubheader>,
+  filter.options.map((option) => (
+    <MenuItem key={option} value={option} style={{ ...getStyles(option, selectedOptions, theme), display: 'flex', justifyContent: 'center' }}>
+      {option}
+    </MenuItem>
+  )),
+])}
+        </Select>
+      </FormControl>
+    </div>
+  );
+}

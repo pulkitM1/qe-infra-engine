@@ -63,13 +63,13 @@ const DataTable = React.forwardRef((props, ref) => {
   }));
 
   return (
-    <div className="data-table" style={{ height: '500px', marginTop: '85px' }}>
+    <div className="data-table" style={{ height: '750px', }}>
   <DataGrid 
   rows={rows} 
   columns={columns} 
   style={{
     border: '0.6px solid black', 
-    boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)', // Add this line
+    boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)', 
     '& .MuiDataGridColumnsContainer': {
       backgroundColor: '#fafafa',
       fontWeight: 'bold', 
