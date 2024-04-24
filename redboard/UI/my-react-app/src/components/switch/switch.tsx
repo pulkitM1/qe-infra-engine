@@ -1,12 +1,12 @@
-// Switch.js
+
 import React from 'react';
 import '../../../App.css';
 
 interface SwitchProps {
   isOn: boolean;
   handleToggle: () => void;
-  imgOn: string; // path to the image when the switch is on
-  imgOff: string; // path to the image when the switch is off
+  imgOn: string; 
+  imgOff: string;
 }
 
 export const Switch: React.FC<SwitchProps> = ({ isOn, handleToggle, imgOn, imgOff }) => {

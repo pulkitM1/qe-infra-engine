@@ -1,15 +1,14 @@
 import React, { useRef, useState, useEffect } from 'react';
 import Header from './components/charts/header';
 import { DoughnutChart } from './components/charts/donutchart';
-import FilterDropdown from './components/charts/filters/filter';
+import FilterDropdown from './components/filters/filter';
 import remote from './assets/remote.webp'
-import { saveAs } from 'file-saver';
-import AppDrawer from './components/charts/drawer/drawer';
-import MobileNavigationButton from './components/charts/navigation/mobileNavigationButton';
+import AppDrawer from './components/drawer/drawer';
+import MobileNavigationButton from './components/navigation/mobileNavigationButton';
 import DataTable from './components/charts/grid';
 import executor from './assets/executor.webp'
-import RunningTasksButton from './components/charts/button/taskRunningButton';
-import ExportButton from './components/charts/button/button'; 
+import RunningTasksButton from './components/button/taskRunningButton';
+import ExportButton from './components/button/button'; 
 
 import './App.css'; 
 
@@ -82,9 +81,9 @@ function App() {
       <Header />
       <div className="switch-container">
         <AppDrawer open={drawerOpen} toggleDrawer={toggleDrawer} />
-        <div style={{ marginBottom: '20px' }}> {/* Add this div */}
+        <div style={{ marginBottom: '20px' }}> 
           <FilterDropdown handleFilterChange={handleFilterChange} />
-        </div> {/* And close it here */}
+        </div> 
         <div className="separator"></div> 
         <img 
           src={image} 

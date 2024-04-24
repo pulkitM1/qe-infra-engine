@@ -19,8 +19,7 @@ const ReserveVmsDialog: React.FC<Props> = ({ open, handleClose }) => {
   const [username, setUsername] = useState('');
   const [os, setOs] = useState('');
 
-  const osOptions = ['Debian', 'Centos', 'Kali', 'Redhat']; // Dummy data
-
+  const osOptions = ['Debian', 'Centos', 'Kali', 'Redhat']; 
   const handleOsChange = (event: React.ChangeEvent<{ value: unknown }>) => {
     setOs(event.target.value as string);
   };

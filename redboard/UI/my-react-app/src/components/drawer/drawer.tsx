@@ -4,8 +4,8 @@ import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import Typography from '@mui/material/Typography';
-import AddVmsDialog from '../../../AddVmsDialog'; 
-import ReserveVmsDialog from '../../../reserveVmsDialog'; 
+import AddVmsDialog from '../../AddVmsDialog'; 
+import ReserveVmsDialog from '../../reserveVmsDialog'; 
 
 interface Props {
   open: boolean;
@@ -62,7 +62,7 @@ const AppDrawer: React.FC<Props> = ({ open, toggleDrawer }) => {
         {list()}
       </Drawer>
       <AddVmsDialog open={addVmsOpen} handleClose={handleAddVmsClose} />
-      <ReserveVmsDialog open={reserveVmsOpen} handleClose={handleReserveVmsClose} /> {/* add the ReserveVmsDialog component */}
+      <ReserveVmsDialog open={reserveVmsOpen} handleClose={handleReserveVmsClose} /> 
     </div>
   );
 }
