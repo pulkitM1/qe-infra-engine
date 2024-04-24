@@ -37,9 +37,6 @@ const AddVmsDialog: React.FC<Props> = ({ open, handleClose }) => {
     const reader = new FileReader();
     reader.onload = (event) => {
       const data = event.target.result;
-      // Parse the data as JSON or CSV and do something with it
-      // ...
-      // Open the Snackbar
       setOpenSnackbar(true);
     };
     reader.readAsText(file);

@@ -8,6 +8,7 @@ import AppDrawer from './components/charts/drawer/drawer';
 import MobileNavigationButton from './components/charts/navigation/mobileNavigationButton';
 import DataTable from './components/charts/grid';
 import executor from './assets/executor.webp'
+import RunningTasksButton from './components/charts/button/taskRunningButton';
 import ExportButton from './components/charts/button/button'; 
 
 import './App.css'; 
@@ -93,6 +94,8 @@ function App() {
           title={isOn === 'Executors' ? 'Displaying Executors data. Click to toggle to Nodes data.' : 'Displaying Nodes data. Click to toggle to Executors data.'}/>
         <div className="separator"></div> 
         <ExportButton onClick={handleExport} /> 
+        <div className="separator"></div> 
+        <RunningTasksButton />
         <div className="separator"></div> 
         <MobileNavigationButton  style={{ color: 'black', marginRight: '300px' }} toggleDrawer={toggleDrawer}   />
       </div>
