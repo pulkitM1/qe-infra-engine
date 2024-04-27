@@ -43,62 +43,65 @@ export const DoughnutChart: React.FC<DoughnutChartProps> = ({
     return '';
   };
   
-  return (
-    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' , width: '100%'}}>
-    <div style={{ textAlign: 'center', fontSize: '32px',  fontWeight: 'normal', color: 'black', marginBottom: '10px', textShadow: '2px 2px 4px rgba(0, 0, 0, 0.3)' }}>        {title}
-      </div>
-      <div style={{ width: '300px', height: '300px', marginBottom: '15px' }}>
-        <Doughnut
-          data={{
-            labels,
-            datasets: [
-              {
-                data: datasets[0].data,
-                backgroundColor: datasets[0].backgroundColor,
-                borderColor: 'white', 
-                borderWidth: 2, 
-              },
-            ],
-            
-          }}
-          options={{
-            maintainAspectRatio,
-            animation,
-            cutout: '70%',
-            plugins: {
-              legend: {
-                display: legend,
-                position: 'top',
-                align: 'start',
-                labels: {
-                  boxHeight: LABEL_RECT_SIZE,
-                  boxWidth: LABEL_RECT_SIZE,
-                  color: LABEL_RECT_COLOR,
-                },
-              },
-              tooltip: {
-                boxPadding: 8,
-                backgroundColor: 'black', 
-                titleColor: 'white', 
-                bodyColor: 'white', 
-                callbacks: {
-                  label: customTooltip,
-                },
-              },
-              datalabels: {
-                color: (context) => datasets[0].backgroundColor[context.dataIndex],
-                display: (context) => context.active,
-                align: 'center',
-                anchor: 'center',
-                formatter: (value, context) => `${labels[context.dataIndex]}\n${value}`, 
+ 
+return (
+  <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' , width: '100%'}}>
+    <div style={{ textAlign: 'center', fontSize: '32px',  fontWeight: 'normal', color: 'black', marginBottom: '10px', textShadow: '2px 2px 4px rgba(0, 0, 0, 0.3)' }}>        
+      {title}
+    </div>
+    <div style={{ width: '300px', height: '300px', marginBottom: '15px' }}>
+      <Doughnut
+        data={{
+          labels,
+          datasets: [
+            {
+              data: datasets[0].data,
+              backgroundColor: datasets[0].backgroundColor,
+              borderColor: 'white', 
+              borderWidth: 2, 
+            },
+          ],
+        }}
+        options={{
+          maintainAspectRatio,
+          animation: {
+            duration: 3000, 
+          },
+          cutout: '75%',
+          plugins: {
+            legend: {
+              display: legend,
+              position: 'top',
+              align: 'start',
+              labels: {
+                boxHeight: LABEL_RECT_SIZE,
+                boxWidth: LABEL_RECT_SIZE,
+                color: LABEL_RECT_COLOR,
               },
             },
-          }}
-        />
-      </div>
-      <div style={{ fontSize: '15px', color: hoveredColor || 'black' , marginBottom: '10px' }}>
-      {hoveredValue && <span style={{ fontWeight: 'bold' }}>{hoveredValue}</span>}
-</div>
+            tooltip: {
+              boxPadding: 8,
+              backgroundColor: 'black', 
+              titleColor: 'white', 
+              bodyColor: 'white', 
+              callbacks: {
+                label: customTooltip,
+              },
+            },
+            datalabels: {
+              color: (context) => datasets[0].backgroundColor[context.dataIndex],
+              display: (context) => context.active,
+              align: 'center',
+              anchor: 'center',
+              formatter: (value, context) => `${labels[context.dataIndex]}\n${value}`, 
+            },
+          },
+        }}
+      />
     </div>
-  );
+    <div style={{ fontSize: '15px', color: hoveredColor || 'black' , marginBottom: '10px' }}>
+      {hoveredValue && <span style={{ fontWeight: 'bold' }}>{hoveredValue}</span>}
+    </div>
+  </div>
+);
 };

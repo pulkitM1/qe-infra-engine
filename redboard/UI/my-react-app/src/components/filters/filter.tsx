@@ -25,6 +25,7 @@ interface Filter {
 
 interface FilterDropdownProps {
   initialSelectedOptions?: string[]; 
+  onFilterChange?: (selectedOptions: string[]) => void; // Add this line
 }
 
 const filters: Filter[] = [
@@ -41,12 +42,28 @@ function getStyles(name: string, selectedOptions: string[], theme: Theme) {
   };
 }
 
-export default function FilterDropdown({ initialSelectedOptions = [] }: FilterDropdownProps) {
+export default function FilterDropdown({ initialSelectedOptions = [], onFilterChange }: FilterDropdownProps) {
   const theme = useTheme();
   const [selectedOptions, setSelectedOptions] = React.useState(initialSelectedOptions);
+  const [tempSelectedOptions, setTempSelectedOptions] = React.useState(initialSelectedOptions); // Temporary state
 
   const handleChange = (event: SelectChangeEvent<string[]>) => {
-    setSelectedOptions(event.target.value);
+    setTempSelectedOptions(event.target.value); 
+  };
+
+  const handleClose = () => {
+
+    if (JSON.stringify(tempSelectedOptions.sort()) !== JSON.stringify(selectedOptions.sort())) {
+      setSelectedOptions(tempSelectedOptions); 
+      const selectedFilters = filters.map(filter => ({
+        filter: filter.heading,
+        subfilters: tempSelectedOptions.filter(option => filter.options.includes(option))
+      }));
+    
+      if (onFilterChange) {
+        onFilterChange(selectedFilters);
+      }
+    }
   };
 
   return (
@@ -55,8 +72,9 @@ export default function FilterDropdown({ initialSelectedOptions = [] }: FilterDr
         <Select
           multiple
           displayEmpty
-          value={selectedOptions}
+          value={tempSelectedOptions} 
           onChange={handleChange}
+          onClose={handleClose} 
           input={<Input style={{ padding: '0px 10px', outline: 'none' }} />}
           renderValue={(selected) => {
             if (selected.length === 0) {
@@ -70,13 +88,13 @@ export default function FilterDropdown({ initialSelectedOptions = [] }: FilterDr
         >
      
           {filters.map((filter, index) => [
-  <ListSubheader key={index} style={{ textAlign: 'center' }}>{filter.heading}</ListSubheader>,
-  filter.options.map((option) => (
-    <MenuItem key={option} value={option} style={{ ...getStyles(option, selectedOptions, theme), display: 'flex', justifyContent: 'center' }}>
-      {option}
-    </MenuItem>
-  )),
-])}
+            <ListSubheader key={index} style={{ textAlign: 'center' }}>{filter.heading}</ListSubheader>,
+            filter.options.map((option) => (
+              <MenuItem key={option} value={option} style={{ ...getStyles(option, tempSelectedOptions, theme), display: 'flex', justifyContent: 'center' }}>
+                {option}
+              </MenuItem>
+            )),
+          ])}
         </Select>
       </FormControl>
     </div>

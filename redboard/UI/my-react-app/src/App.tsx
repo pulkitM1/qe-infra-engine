@@ -9,6 +9,7 @@ import DataTable from './components/charts/grid';
 import executor from './assets/executor.webp'
 import RunningTasksButton from './components/button/taskRunningButton';
 import ExportButton from './components/button/button'; 
+import { HashLoader} from 'react-spinners'; 
 
 import './App.css'; 
 
@@ -42,6 +43,48 @@ function App() {
   const [image, setImage] = useState(remote); 
   const [selectedFilters, setSelectedFilters] = useState(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(true); 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const colors = ['#090909'];
+  const [color, setColor] = useState(colors[0]);
+
+  function fetchApiData(machineType, filters) {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        const doughnutData1 = machineType === 'executors' ? executorsData : nodesData;
+        const doughnutData2 = machineType === 'executors' ? anotherData : yetAnotherData;
+  
+        resolve({
+          doughnutData1:  doughnutData1,
+          doughnutData2:  doughnutData2,
+        });
+      }, 20000); 
+    });
+  }
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setColor(colors[(colors.indexOf(color) + 1) % colors.length]);
+    }, 1000);
+    return () => clearInterval(interval);
+  }, [color, colors]);
+
+  useEffect(() => {
+    const machineType = isOn.toLowerCase(); 
+  
+    // Reset the chart data
+    setChartData1(null);
+    setChartData2(null);
+  
+    // Start loading new data
+    setIsLoading(true);
+  
+    fetchApiData(machineType, selectedFilters)
+      .then((data) => {
+        setChartData1(data.doughnutData1);
+        setChartData2(data.doughnutData2);
+        setIsLoading(false); 
+      });
+  }, [selectedFilters, isOn]);
 
   const toggleDrawer = (open: boolean) => (event: React.MouseEvent) => {
     setDrawerOpen(open);
@@ -50,14 +93,15 @@ function App() {
   const handleToggle = () => {
     setIsOn(isOn === 'Executors' ? 'Remote' : 'Executors');
     setImage(image === remote ? executor : remote); 
+    setIsLoading(true); 
   };
   
   const handleFilterChange = (selectedOptions) => {
     setSelectedFilters(selectedOptions);
+    console.log(selectedOptions); 
   };
-
-  const [chartData1, setChartData1] = useState(executorsData); 
-  const [chartData2, setChartData2] = useState(anotherData); 
+  const [chartData1, setChartData1] = useState(null); 
+  const [chartData2, setChartData2] = useState(null); 
   const dataTableRef = useRef();
 
   const handleExport = () => {
@@ -67,22 +111,13 @@ function App() {
     }
   };
   
-  useEffect(() => {
-    const originalData1 = isOn === 'Executors' ? executorsData : nodesData;
-    const originalData2 = isOn === 'Executors' ? anotherData : yetAnotherData;
-    const filteredData1 = selectedFilters && selectedFilters.length > 0  ? originalData1.filter(data => selectedFilters.includes(data.label)) : originalData1;
-    const filteredData2 = selectedFilters && selectedFilters.length > 0 ? originalData2.filter(data => selectedFilters.includes(data.label)) : originalData2;
-    setChartData1(filteredData1);
-    setChartData2(filteredData2);
-  }, [selectedFilters, isOn]); 
-
   return (
     <div style={{ width: '100%' }}>
       <Header />
       <div className="switch-container">
         <AppDrawer open={drawerOpen} toggleDrawer={toggleDrawer} />
         <div style={{ marginBottom: '20px' }}> 
-          <FilterDropdown handleFilterChange={handleFilterChange} />
+          <FilterDropdown onFilterChange={handleFilterChange} />
         </div> 
         <div className="separator"></div> 
         <img 
@@ -105,23 +140,31 @@ function App() {
         </a>
       </div>
       <div className="container-parent" style={{ width: '100vw', display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: '80px' }}>
-        <div className="tile-container">
-          <div className="chart-tile">
-            <div className="chart-container" style={{ width: '100%' }}>
-              <DoughnutChart data={chartData1} title={'States'} />
-            </div>
+      <div className="tile-container">
+        {isLoading ? ( 
+          <div style={{ width: '300px', height: '300px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+            <HashLoader color={color} loading={isLoading} size={50} />
           </div>
-          <div className="chart-tile">
-            <div className="chart-container" style={{ width: '100%' }}>
-              <DoughnutChart data={chartData2} title={'Tags'} />
+        ) : (
+          <>
+            <div className="chart-tile">
+              <div className="chart-container" style={{ width: '100%' }}>
+                <DoughnutChart data={chartData1} title={'States'} />
+              </div>
             </div>
-          </div>
-        </div>
-        <div className="center-line"></div>
-        <DataTable />
+            <div className="chart-tile">
+              <div className="chart-container" style={{ width: '100%' }}>
+                <DoughnutChart data={chartData2} title={'Tags'} />
+              </div>
+            </div>
+          </>
+        )}
       </div>
+      <div className="center-line"></div>
+      <DataTable />
     </div>
-  );
+  </div>
+);
 }
 
 export default App;
