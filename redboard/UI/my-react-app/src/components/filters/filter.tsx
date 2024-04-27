@@ -25,13 +25,9 @@ interface Filter {
 
 interface FilterDropdownProps {
   initialSelectedOptions?: string[]; 
-  onFilterChange?: (selectedOptions: string[]) => void; // Add this line
+  onFilterChange?: (selectedOptions: string[]) => void; 
 }
 
-const filters: Filter[] = [
-  { heading: 'OS', options: ['Debian', 'Centos','Red Hat'] },
-  { heading: 'Pool ID', options: ['Regression', 'Magma', 'Failover'] },
-];
 
 function getStyles(name: string, selectedOptions: string[], theme: Theme) {
   return {
@@ -41,30 +37,36 @@ function getStyles(name: string, selectedOptions: string[], theme: Theme) {
         : theme.typography.fontWeightRegular,
   };
 }
+FilterDropdown.defaultProps = {
+  filters: [],
+};
 
-export default function FilterDropdown({ initialSelectedOptions = [], onFilterChange }: FilterDropdownProps) {
+export default function FilterDropdown({ initialSelectedOptions = [], onFilterChange, disabled, filters }: FilterDropdownProps) {
+  console.log("cerfkjernifuerhi")
+  console.log(filters)
   const theme = useTheme();
   const [selectedOptions, setSelectedOptions] = React.useState(initialSelectedOptions);
-  const [tempSelectedOptions, setTempSelectedOptions] = React.useState(initialSelectedOptions); // Temporary state
+  const [tempSelectedOptions, setTempSelectedOptions] = React.useState(initialSelectedOptions); 
 
   const handleChange = (event: SelectChangeEvent<string[]>) => {
     setTempSelectedOptions(event.target.value); 
   };
 
-  const handleClose = () => {
 
-    if (JSON.stringify(tempSelectedOptions.sort()) !== JSON.stringify(selectedOptions.sort())) {
-      setSelectedOptions(tempSelectedOptions); 
-      const selectedFilters = filters.map(filter => ({
-        filter: filter.heading,
-        subfilters: tempSelectedOptions.filter(option => filter.options.includes(option))
-      }));
-    
-      if (onFilterChange) {
-        onFilterChange(selectedFilters);
-      }
+const handleClose = () => {
+  if (JSON.stringify(tempSelectedOptions.sort()) !== JSON.stringify(selectedOptions.sort())) {
+    setSelectedOptions(tempSelectedOptions); 
+    const selectedFilters = filters.map(filter => ({
+      filter: filter.filter,
+      subfilters: tempSelectedOptions.filter(option => filter.subfilters.includes(option))
+    }));
+  
+    if (onFilterChange) {
+      onFilterChange(selectedFilters);
     }
-  };
+  }
+};
+
 
   return (
     <div>
@@ -85,16 +87,16 @@ export default function FilterDropdown({ initialSelectedOptions = [], onFilterCh
           }}
           MenuProps={MenuProps}
           inputProps={{ 'aria-label': 'Filter options' }}
+          disabled={disabled}
         >
-     
-          {filters.map((filter, index) => [
-            <ListSubheader key={index} style={{ textAlign: 'center' }}>{filter.heading}</ListSubheader>,
-            filter.options.map((option) => (
-              <MenuItem key={option} value={option} style={{ ...getStyles(option, tempSelectedOptions, theme), display: 'flex', justifyContent: 'center' }}>
-                {option}
-              </MenuItem>
-            )),
-          ])}
+   {filters && filters.map((filter, index) => [
+  <ListSubheader key={index} style={{ textAlign: 'center' }}>{filter.filter}</ListSubheader>,
+  filter.subfilters && filter.subfilters.map((option) => (
+    <MenuItem key={option} value={option} style={{ ...getStyles(option, tempSelectedOptions, theme), display: 'flex', justifyContent: 'center' }}>
+      {option}
+    </MenuItem>
+  )),
+])}
         </Select>
       </FormControl>
     </div>

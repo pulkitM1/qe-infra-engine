@@ -10,6 +10,7 @@ import executor from './assets/executor.webp'
 import RunningTasksButton from './components/button/taskRunningButton';
 import ExportButton from './components/button/button'; 
 import { HashLoader} from 'react-spinners'; 
+import CircularProgress from '@mui/material/CircularProgress';
 
 import './App.css'; 
 
@@ -40,10 +41,12 @@ function App() {
   ];
 
   const [isOn, setIsOn] = useState('Executors'); 
+  const [filters, setFilters] = useState([]);
   const [image, setImage] = useState(remote); 
   const [selectedFilters, setSelectedFilters] = useState(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true); 
+  const [isFiltersLoading, setIsFiltersLoading] = useState(false);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const colors = ['#090909'];
   const [color, setColor] = useState(colors[0]);
@@ -61,6 +64,35 @@ function App() {
       }, 20000); 
     });
   }
+
+  function fetchFilters(machineType) {
+    setIsFiltersLoading(true);
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        if (machineType === 'executors') {
+          resolve([
+            { filter: 'filter1', subfilters: ['subfilter1', 'subfilter2'] },
+            { filter: 'filter2', subfilters: ['subfilter3', 'subfilter4'] },
+          ]);
+        } else { // machineType === 'nodes'
+          resolve([
+            { filter: 'filter3', subfilters: ['subfilter5', 'subfilter6'] },
+            { filter: 'filter4', subfilters: ['subfilter7', 'subfilter8'] },
+          ]);
+        }
+        setIsFiltersLoading(false); 
+      }, 2000); 
+    });
+  }
+
+  useEffect(() => {
+    const machineType = isOn.toLowerCase(); 
+    fetchFilters(machineType)
+      .then((fetchedFilters) => {
+        setFilters(fetchedFilters);
+      });
+  }, [isOn]);
+  
   useEffect(() => {
     const interval = setInterval(() => {
       setColor(colors[(colors.indexOf(color) + 1) % colors.length]);
@@ -70,12 +102,8 @@ function App() {
 
   useEffect(() => {
     const machineType = isOn.toLowerCase(); 
-  
-    // Reset the chart data
     setChartData1(null);
     setChartData2(null);
-  
-    // Start loading new data
     setIsLoading(true);
   
     fetchApiData(machineType, selectedFilters)
@@ -93,6 +121,7 @@ function App() {
   const handleToggle = () => {
     setIsOn(isOn === 'Executors' ? 'Remote' : 'Executors');
     setImage(image === remote ? executor : remote); 
+    setSelectedFilters([]); 
     setIsLoading(true); 
   };
   
@@ -117,7 +146,13 @@ function App() {
       <div className="switch-container">
         <AppDrawer open={drawerOpen} toggleDrawer={toggleDrawer} />
         <div style={{ marginBottom: '20px' }}> 
-          <FilterDropdown onFilterChange={handleFilterChange} />
+        {isFiltersLoading ? ( 
+  <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: '20px', marginRight: '30px' }}>
+    <CircularProgress color="warning" size={20} />
+  </div>
+) : (
+  <FilterDropdown onFilterChange={handleFilterChange} disabled={(isFiltersLoading || isLoading)} filters={filters} />
+)}
         </div> 
         <div className="separator"></div> 
         <img 
@@ -140,31 +175,32 @@ function App() {
         </a>
       </div>
       <div className="container-parent" style={{ width: '100vw', display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: '80px' }}>
-      <div className="tile-container">
-        {isLoading ? ( 
-          <div style={{ width: '300px', height: '300px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-            <HashLoader color={color} loading={isLoading} size={50} />
-          </div>
-        ) : (
-          <>
-            <div className="chart-tile">
-              <div className="chart-container" style={{ width: '100%' }}>
-                <DoughnutChart data={chartData1} title={'States'} />
-              </div>
+        <div className="tile-container">
+          {isLoading ? ( 
+            <div style={{ width: '300px', height: '300px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+              <HashLoader color={color} loading={isLoading} size={50} />
             </div>
-            <div className="chart-tile">
-              <div className="chart-container" style={{ width: '100%' }}>
-                <DoughnutChart data={chartData2} title={'Tags'} />
+          ) : (
+            <>
+              <div className="chart-tile">
+                <div className="chart-container" style={{ width: '100%' }}>
+                  <DoughnutChart data={chartData1} title={'States'} />
+                </div>
               </div>
-            </div>
-          </>
-        )}
+              <div className="chart-tile">
+                <div className="chart-container" style={{ width: '100%' }}>
+                  <DoughnutChart data={chartData2} title={'Tags'} />
+                </div>
+              </div>
+            </>
+          )}
+        </div>
+        <div className="center-line"></div>
+        <DataTable />
       </div>
-      <div className="center-line"></div>
-      <DataTable />
     </div>
-  </div>
-);
+  );
+  
 }
 
 export default App;
