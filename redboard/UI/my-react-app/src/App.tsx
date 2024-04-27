@@ -61,7 +61,7 @@ function App() {
           doughnutData1:  doughnutData1,
           doughnutData2:  doughnutData2,
         });
-      }, 20000); 
+      }, 8000); 
     });
   }
 
@@ -81,7 +81,7 @@ function App() {
           ]);
         }
         setIsFiltersLoading(false); 
-      }, 2000); 
+      }, 5000); 
     });
   }
 
