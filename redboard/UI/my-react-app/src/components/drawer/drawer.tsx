@@ -6,6 +6,9 @@ import ListItemText from '@mui/material/ListItemText';
 import Typography from '@mui/material/Typography';
 import AddVmsDialog from '../../AddVmsDialog'; 
 import ReserveVmsDialog from '../../reserveVmsDialog'; 
+import SimpleGame from '../game'; 
+import { useNavigate } from 'react-router-dom';
+
 
 interface Props {
   open: boolean;
@@ -15,6 +18,10 @@ interface Props {
 const AppDrawer: React.FC<Props> = ({ open, toggleDrawer }) => {
   const [addVmsOpen, setAddVmsOpen] = useState(false);
   const [reserveVmsOpen, setReserveVmsOpen] = useState(false);
+  const [showGame, setShowGame] = useState(false); 
+  const [hoverStart, setHoverStart] = useState(0); 
+  const [hoverEnd, setHoverEnd] = useState(0); 
+  const navigate = useNavigate();
 
   const handleAddVmsOpen = () => {
     setAddVmsOpen(true);
@@ -38,7 +45,19 @@ const AppDrawer: React.FC<Props> = ({ open, toggleDrawer }) => {
       onClick={toggleDrawer(false)}
       onKeyDown={toggleDrawer(false)}
     >
-      <Typography variant="h5" component="div" sx={{ padding: '21px', textAlign: 'center', color: 'red', textShadow: '0 0 8px rgba(255, 0, 0, 0.6)' ,transition: 'all 0.4s ease', '&:hover': { textShadow: '0 0 10px red, 0 0 20px red, 0 0 30px red, 0 0 40px red' } }}> 
+      <Typography 
+        variant="h5" 
+        component="div" 
+        sx={{ padding: '21px', textAlign: 'center', color: 'red', textShadow: '0 0 8px rgba(255, 0, 0, 0.6)' ,transition: 'all 0.4s ease', '&:hover': { textShadow: '0 0 10px red, 0 0 20px red, 0 0 30px red, 0 0 40px red' }}}
+        onMouseEnter={() => setHoverStart(Date.now())}
+        onMouseLeave={() => {
+          const hoverEndTime = Date.now();
+          setHoverEnd(hoverEndTime);
+          if (hoverEndTime - hoverStart >= 26000) {
+            navigate('/game');
+          }
+        }}
+      > 
         Red Tools
       </Typography>
       <List>
@@ -63,6 +82,7 @@ const AppDrawer: React.FC<Props> = ({ open, toggleDrawer }) => {
       </Drawer>
       <AddVmsDialog open={addVmsOpen} handleClose={handleAddVmsClose} />
       <ReserveVmsDialog open={reserveVmsOpen} handleClose={handleReserveVmsClose} /> 
+      {showGame && <SimpleGame />} 
     </div>
   );
 }

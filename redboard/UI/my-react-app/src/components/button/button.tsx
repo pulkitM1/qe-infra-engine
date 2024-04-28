@@ -15,18 +15,19 @@ const StyledDownloadIcon = styled(DownloadIcon)`
   animation: ${download} 3s ease-in-out infinite;
 `;
 
-const ExportButton = ({ onClick }) => {
+const ExportButton = ({ onClick, disabled }) => {
   return (
     <Button 
       variant="contained" 
       color="primary" 
       startIcon={<StyledDownloadIcon />} 
       onClick={onClick}
+      disabled={disabled}
       sx={{
-        backgroundColor: '#303030',
+        backgroundColor: disabled ? 'darkgray' : '#303030',
         color: 'white',
         '&:hover': {
-          backgroundColor: 'darkgray',
+          backgroundColor: disabled ? 'darkgray' : 'darkgray',
         },
       }}
     >
