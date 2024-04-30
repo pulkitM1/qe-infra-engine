@@ -42,18 +42,21 @@ function App() {
     { label: 'Down for Repair', value: 30 },
     { label: 'Bad Health', value: 110 },
   ];
-
+// eslint-disable-next-line react-hooks/exhaustive-deps
+  const colors = ['#090909'];
+  const [color, setColor] = useState(colors[0]);
+  const [isDownloading, setIsDownloading] = useState(false);
   const [isOn, setIsOn] = useState('Executors'); 
+  const [page, setPage] = useState(0);
+  const [loading, setLoading] = useState(false);
+  const [rows, setRows] = useState([]);
   const [filters, setFilters] = useState([]);
   const [image, setImage] = useState(remote); 
   const [selectedFilters, setSelectedFilters] = useState(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true); 
   const [isFiltersLoading, setIsFiltersLoading] = useState(false);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const colors = ['#090909'];
-  const [color, setColor] = useState(colors[0]);
-  const [isDownloading, setIsDownloading] = useState(false);
+  
 
   function simulateApiCall(machineType, filters) {
     return new Promise((resolve) => {
@@ -104,7 +107,7 @@ function App() {
             { filter: 'filter1', subfilters: ['subfilter1', 'subfilter2'] },
             { filter: 'filter2', subfilters: ['subfilter3', 'subfilter4'] },
           ]);
-        } else { // machineType === 'nodes'
+        } else {
           resolve([
             { filter: 'filter3', subfilters: ['subfilter5', 'subfilter6'] },
             { filter: 'filter4', subfilters: ['subfilter7', 'subfilter8'] },
@@ -144,9 +147,50 @@ function App() {
       });
   }, [selectedFilters, isOn]);
 
+  useEffect(() => {
+    const machineType = isOn.toLowerCase();
+    fetchData(page, machineType, selectedFilters); 
+  }, [page, isOn, selectedFilters]);
+
   const toggleDrawer = (open: boolean) => (event: React.MouseEvent) => {
     setDrawerOpen(open);
   };
+
+  const fetchData = (newPage, machineType, filters) => {
+    setLoading(true);
+    
+    if (!filters || filters.length === 0) {
+      filters = ['DefaultFilter1', 'DefaultFilter2'];
+    }
+  
+    new Promise((resolve) => {
+      setTimeout(() => {
+        const newRows = Array.from({length: 100}, (_, i) => ({
+          id: newPage * 100 + i,
+          ipAddresses: `192.168.${Math.floor(Math.random() * 255)}.${Math.floor(Math.random() * 255)}`,
+          status: machineType === 'executors' && filters.includes('Active') ? 'Active' : 'Inactive',
+          state: filters.includes('Running') ? 'Running' : 'Stopped',
+          ram: `${Math.floor(Math.random() * 16) + 4}GB`,
+          disk: `${Math.floor(Math.random() * 500) + 500}GB`,
+          tags: ['tag1', 'tag2', 'tag3'], 
+        }));
+  
+        resolve({
+          rows: newRows,
+          totalCount: 1000, 
+        });
+      }, 9000);
+    })
+    .then(data => {
+      setRows(data.rows);
+      setLoading(false);
+    })
+    .catch(error => {
+      console.error(error);
+      setLoading(false);
+    });
+  };
+  
   
   const handleToggle = () => {
     setIsOn(isOn === 'Executors' ? 'Remote' : 'Executors');
@@ -161,7 +205,6 @@ function App() {
   };
   const [chartData1, setChartData1] = useState(null); 
   const [chartData2, setChartData2] = useState(null); 
-  const dataTableRef = useRef();
 
 
   return (
@@ -227,8 +270,8 @@ function App() {
                 )}
               </div>
               <div className="center-line"></div>
-              <DataTable />
-            </div>
+              <DataTable rows={rows} page={page} setPage={setPage} loading={loading} setLoading={setLoading} />
+              </div>
           </div>
         } />
       </Routes>

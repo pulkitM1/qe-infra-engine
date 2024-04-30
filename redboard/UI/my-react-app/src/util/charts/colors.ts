@@ -15,7 +15,7 @@ export const getColorOfGivenIndex = (index: number) => {
  * @param chartIndex index of element in array, should be greater or equal 0
  */
 export const getChartColor = (chartIndex: number) => {
-  const shiftedIndex = chartIndex + 1; // for some reason svelte application starts with 2nd color
+  const shiftedIndex = chartIndex + 1; 
 
   const snappedIndex = Math.max(1, shiftedIndex % CHART_COLORS_NUMBER);
   const color = getColorOfGivenIndex(snappedIndex);

@@ -11,7 +11,7 @@ export default defineConfig({
   },
   resolve: {
     alias: {
-      '@': resolve(__dirname, '/Users/pulkitmatta/redboard/qe-infra-engine/redboard/UI/my-react-app/src'), // Set your project's root path here
+      '@': resolve(__dirname, '/Users/pulkitmatta/redboard/qe-infra-engine/redboard/UI/my-react-app/src'), 
     },
   },
 });

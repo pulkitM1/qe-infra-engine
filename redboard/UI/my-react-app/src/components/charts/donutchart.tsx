@@ -35,9 +35,8 @@ export const DoughnutChart: React.FC<DoughnutChartProps> = ({
     const { dataIndex } = context;
     if (dataIndex !== null) {
       const value = datasets[0].data[dataIndex];
-      const total = datasets[0].data.reduce((acc, curr) => acc + curr, 0);
       const label = labels[dataIndex];
-      setHoveredValue(`${label}: ${value} / ${total}`);
+      setHoveredValue(`${label}: ${value}`);
       return `Value: ${value}`;
     }
     return '';
