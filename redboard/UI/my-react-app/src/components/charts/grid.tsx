@@ -101,7 +101,7 @@ const DataTable = React.forwardRef(({ rows, page, setPage, loading }, ref) => {
   ];
   
   return (
-    <div style={{ height: 600, width: 1300, border: '0.9px solid black', marginTop: 50, marginBottom: 50 }}>
+    <div style={{ height: 550, width: 1300, border: '0.9px solid black', marginTop: 45, marginBottom: 60 }}>
       <DataGrid
         components={{
           LoadingOverlay: CustomLoadingOverlay,

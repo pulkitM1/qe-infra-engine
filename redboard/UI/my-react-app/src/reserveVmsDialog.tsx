@@ -109,17 +109,17 @@ const ReserveVmsDialog: React.FC<Props> = ({ open, handleClose }) => {
             width: '20%', 
           }}
         >
-          <MenuItem value="" disabled sx={{ fontSize: '0.9rem' , marginTop: '0px'}}>
+          <MenuItem value="" disabled sx={{ fontSize: '0.9rem' , marginTop: '10px'}}>
             Select OS
           </MenuItem>
           {osOptions.map((option) => (
-            <MenuItem key={option} value={option} sx={{ fontSize: '0.9rem', marginTop: '10px' }}>
+            <MenuItem key={option} value={option} sx={{ fontSize: '0.9rem', marginTop: '25px' }}>
               {option}
             </MenuItem>
           ))}
         </Select>
       </DialogContent>
-      <DialogActions sx={{ marginBottom: '18px', marginTop: '3px', height: '3px' , marginRight:'20px'}}>
+      <DialogActions sx={{ marginBottom: '19px', marginTop: '3px', height: '3px' , marginRight:'20px'}}>
         <Button onClick={handleClose}>Cancel</Button>
         <Button onClick={handleReserve}>Reserve</Button>
       </DialogActions>

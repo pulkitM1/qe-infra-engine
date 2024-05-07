@@ -191,7 +191,6 @@ function App() {
     });
   };
   
-  
   const handleToggle = () => {
     setIsOn(isOn === 'Executors' ? 'Remote' : 'Executors');
     setImage(image === remote ? executor : remote); 
@@ -205,7 +204,6 @@ function App() {
   };
   const [chartData1, setChartData1] = useState(null); 
   const [chartData2, setChartData2] = useState(null); 
-
 
   return (
     <Router>
