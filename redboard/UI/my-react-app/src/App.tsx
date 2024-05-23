@@ -2,6 +2,7 @@ import React, { useRef, useState, useEffect } from 'react';
 import Header from './components/charts/header';
 import { DoughnutChart } from './components/charts/donutchart';
 import FilterDropdown from './components/filters/filter';
+import { API_ENDPOINTS } from './api';
 import remote from './assets/remote.webp'
 import AppDrawer from './components/drawer/drawer';
 import MobileNavigationButton from './components/navigation/mobileNavigationButton';
@@ -98,32 +99,40 @@ function App() {
       });
   };
 
+  
   function fetchFilters(machineType) {
     setIsFiltersLoading(true);
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        if (machineType === 'executors') {
-          resolve([
-            { filter: 'filter1', subfilters: ['subfilter1', 'subfilter2'] },
-            { filter: 'filter2', subfilters: ['subfilter3', 'subfilter4'] },
-          ]);
-        } else {
-          resolve([
-            { filter: 'filter3', subfilters: ['subfilter5', 'subfilter6'] },
-            { filter: 'filter4', subfilters: ['subfilter7', 'subfilter8'] },
-          ]);
-        }
-        setIsFiltersLoading(false); 
-      }, 5000); 
+    fetch(API_ENDPOINTS.fetchFilters, {
+      method: 'GET',
+      headers: {
+        'Accept': 'application/json',
+      },
+    })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      return response.json();
+    })
+    .then(data => {
+      console.log(data);
+      const transformedFilters = Object.entries(data).map(([filter, subfilters]) => ({
+        filter,
+        subfilters,
+      }));
+      setFilters(transformedFilters);
+      setIsFiltersLoading(false);
+    })
+    .catch(error => {
+      console.error('Error fetching filters:', error);
+      setIsFiltersLoading(false);
     });
   }
+  
 
   useEffect(() => {
     const machineType = isOn.toLowerCase(); 
-    fetchFilters(machineType)
-      .then((fetchedFilters) => {
-        setFilters(fetchedFilters);
-      });
+    fetchFilters(machineType);
   }, [isOn]);
   
   useEffect(() => {
