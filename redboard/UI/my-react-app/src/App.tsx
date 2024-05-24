@@ -70,19 +70,44 @@ function App() {
     });
   }
 
-  function fetchApiData(machineType, filters) {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        const doughnutData1 = machineType === 'executors' ? executorsData : nodesData;
-        const doughnutData2 = machineType === 'executors' ? anotherData : yetAnotherData;
-  
-        resolve({
-          doughnutData1:  doughnutData1,
-          doughnutData2:  doughnutData2,
-        });
-      }, 8000); 
+  async function fetchApiData(machineType, filters = {}) {
+    console.log("dsdcer")
+    console.log(API_ENDPOINTS.fetchApiData)
+
+    // Check if filters is null or empty
+    if (!filters || Object.keys(filters).length === 0) {
+        filters = {};
+    }
+
+    const response = await fetch(API_ENDPOINTS.fetchApiData, {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        filters: filters,
+        pivot: "state",
+      }),
     });
-  }
+
+    console.log(response)
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+  
+    const data = await response.json();
+  
+    // Transform the data into the required format
+    const doughnutData1 = Object.entries(data).map(([label, value]) => ({ label, value }));
+    const doughnutData2 = Object.entries(data).map(([label, value]) => ({ label, value })); // Use the same data for doughnutData2
+
+    return {
+      doughnutData1: doughnutData1,
+      doughnutData2: doughnutData2,
+    };
+}
+
 
   const handleExport = () => {
     setIsDownloading(true);
@@ -115,7 +140,6 @@ function App() {
       return response.json();
     })
     .then(data => {
-      console.log(data);
       const transformedFilters = Object.entries(data).map(([filter, subfilters]) => ({
         filter,
         subfilters,

@@ -14,18 +14,64 @@
 }
 
 :root {
-  --color-chart-1: rgb(246, 66, 66);
-  --color-chart-2: #519DE9;
-  --color-chart-3: #7CC674;
-  --color-chart-4: #EA5F89;
-  --color-chart-5: #bd7ebe;
-  --color-chart-6: #EF9234;
-  --color-chart-7: pink;
-  --color-chart-8: #73C5C5;
-  --color-chart-9: #F6D173;
+  --color-chart-1: #F44242;
+--color-chart-2: #519DE9;
+--color-chart-3: #7CC674;
+--color-chart-4: #EA5F89;
+--color-chart-5: #BD7EBE;
+--color-chart-6: #EF9234;
+--color-chart-7: #FFC0CB;
+--color-chart-8: #73C5C5;
+--color-chart-9: #F6D173;
+--color-chart-10: #FF5733;
+--color-chart-11: #C70039;
+--color-chart-12: #900C3F;
+--color-chart-13: #581845;
+--color-chart-14: #FFC300;
+--color-chart-15: #DAF7A6;
+--color-chart-16: #FF5733;
+--color-chart-17: #C70039;
+--color-chart-18: #900C3F;
+--color-chart-19: #581845;
+--color-chart-20: #FFC300;
+--color-chart-21: #DAF7A6;
+--color-chart-22: #FF5733;
+--color-chart-23: #C70039;
+--color-chart-24: #900C3F;
+--color-chart-25: #581845;
+--color-chart-26: #FFC300;
+--color-chart-27: #DAF7A6;
+--color-chart-28: #FF5733;
+--color-chart-29: #C70039;
+--color-chart-30: #900C3F;
+--color-chart-31: #581845;
+--color-chart-32: #FFC300;
+--color-chart-33: #DAF7A6;
+--color-chart-34: #FF5733;
+--color-chart-35: #C70039;
+--color-chart-36: #900C3F;
+--color-chart-37: #581845;
+--color-chart-38: #FFC300;
+--color-chart-39: #DAF7A6;
+--color-chart-40: #FF5733;
+--color-chart-41: #C70039;
+--color-chart-42: #900C3F;
+--color-chart-43: #581845;
+--color-chart-44: #FFC300;
+--color-chart-45: #DAF7A6;
+--color-chart-46: #FF5733;
+--color-chart-47: #C70039;
+--color-chart-48: #900C3F;
+--color-chart-49: #581845;
+--color-chart-50: #FFC300;
+
 }
 
 .chart-container {
+  height: 400px; 
+  overflow-y: auto;
+  width: 100%; 
+  height: 100%; 
   margin-right: 100px;
 }
 .switch-container {
@@ -204,4 +250,10 @@
 
 .myDataGrid .MuiDataGrid-columnHeaderTitleContainer {
   padding-left: 20px;
+}
+.legend-text {
+  color: black; /* Change this to the color you want */
+}
+.strike-through {
+  text-decoration: line-through;
 }

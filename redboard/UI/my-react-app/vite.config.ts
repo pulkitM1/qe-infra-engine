@@ -9,6 +9,7 @@ export default defineConfig({
     port: 5174,
     proxy: {
       '/nodes/query': 'http://127.0.0.1:5000',
+      '/nodes/aggregate/fetchPivotAggregates': 'http://127.0.0.1:5000',
     },
   },
   resolve: {
