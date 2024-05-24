@@ -13,9 +13,9 @@ const SimpleGame = () => {
     event.preventDefault();
     const userGuess = Number(guess);
     if (userGuess === secretNumber) {
-      setMessage('Congratulations! You guessed the number!');
+      setMessage('Congratulations! You guessed the rebalance % ');
     } else if (userGuess < secretNumber) {
-      setMessage('Too low! Try again.');
+      setMessage('Too low! Its file based rebalance try again.');
     } else {
       setMessage('Too high! Try again.');
     }
@@ -29,7 +29,7 @@ const SimpleGame = () => {
 
   return (
     <div style={{ color: 'white', textAlign: 'center' }}>
-      <h2>Guess the Number</h2>
+      <h2>Guess the Rebalance % </h2>
       <form onSubmit={handleSubmit}>
         <input type="number" value={guess} onChange={handleChange} />
         <button  style={{ color: 'white', textAlign: 'center' ,marginLeft: '20px' }} type="submit">Guess</button>

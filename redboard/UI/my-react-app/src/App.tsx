@@ -19,30 +19,7 @@ import GamePage from './components/gamepage';
 import './App.css'; 
 
 function App() {
-  const executorsData = [
-    { label: 'Failed Install', value: 1900 },
-    { label: 'Available', value: 1000 },
-    { label: 'Reserved', value: 1500 },
-    { label: 'Unavailable', value: 1000 },
-    { label: 'Bad Health', value: 750 },
-  ];
-
-  const nodesData = [
-    { label: 'Available', value: 200 },
-    { label: 'Unavailable', value: 500 },
-    { label: 'Bad Health', value: 250 },
-  ];
-
-  const anotherData = [
-    { label: 'NTP Absent', value: 80 },
-    { label: 'Disk Not Working', value: 20 },
-    { label: '> 97% Ram Utilised', value: 10 },
-  ];
-
-  const yetAnotherData = [
-    { label: 'Down for Repair', value: 30 },
-    { label: 'Bad Health', value: 110 },
-  ];
+  
 // eslint-disable-next-line react-hooks/exhaustive-deps
   const colors = ['#090909'];
   const [color, setColor] = useState(colors[0]);
@@ -91,6 +68,18 @@ function App() {
       }),
     });
 
+    const response_tags = await fetch(API_ENDPOINTS.fetchApiData, {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        filters: filters,
+        pivot: "tags",
+      }),
+    });
+
     console.log(response)
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
@@ -100,7 +89,7 @@ function App() {
   
     // Transform the data into the required format
     const doughnutData1 = Object.entries(data).map(([label, value]) => ({ label, value }));
-    const doughnutData2 = Object.entries(data).map(([label, value]) => ({ label, value })); // Use the same data for doughnutData2
+    const doughnutData2 = Object.entries(data).map(([label, value]) => ({ label, value }));
 
     return {
       doughnutData1: doughnutData1,
@@ -232,6 +221,8 @@ function App() {
   };
   
   const handleFilterChange = (selectedOptions) => {
+    console.log("selected filter!!!")
+    console.log(selectedOptions)
     setSelectedFilters(selectedOptions);
     console.log(selectedOptions); 
   };

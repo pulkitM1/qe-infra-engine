@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import SimpleGame from './game';
+import CouchbaseTrivia from './game';
 
 const GamePage: React.FC = () => {
   useEffect(() => {
@@ -17,7 +17,7 @@ const GamePage: React.FC = () => {
 
   return (
     <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, display: 'flex', justifyContent: 'center', alignItems: 'center', backgroundColor: 'black' }}>
-      <SimpleGame />
+      <CouchbaseTrivia />
     </div>
   );
 };

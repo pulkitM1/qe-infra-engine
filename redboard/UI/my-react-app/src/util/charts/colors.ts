@@ -1,6 +1,6 @@
 import { getCssProperty } from '../common';
 
-export const CHART_COLORS_NUMBER = 9;
+export const CHART_COLORS_NUMBER = 38;
 
 export const getColorOfGivenIndex = (index: number) => {
   if (index < 1 || index > CHART_COLORS_NUMBER) {

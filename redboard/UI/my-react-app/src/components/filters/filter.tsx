@@ -34,13 +34,13 @@ const MenuProps = {
 
 // Type definitions for props
 interface Filter {
-  heading: string;
-  options: string[];
+  filter: string;
+  subfilters: string[];
 }
 
 interface FilterDropdownProps {
   initialSelectedOptions?: string[]; 
-  onFilterChange?: (selectedOptions: string[]) => void; 
+  onFilterChange?: (selectedOptions: { [key: string]: string[] }) => void;
 }
 
 // Helper function to get styles for selected options
@@ -73,16 +73,25 @@ export default function FilterDropdown({ initialSelectedOptions = [], onFilterCh
   const handleClose = () => {
     if (JSON.stringify(tempSelectedOptions.sort()) !== JSON.stringify(selectedOptions.sort())) {
       setSelectedOptions(tempSelectedOptions); 
-      const selectedFilters = filters.map(filter => ({
-        filter: filter.filter,
-        subfilters: tempSelectedOptions.filter(option => filter.subfilters.includes(option))
-      }));
+      const selectedFilters: { [key: string]: string[] } = {};
+      filters.forEach(filter => {
+        const filteredSubfilters = tempSelectedOptions.filter(option => filter.subfilters.includes(option));
+        if (filteredSubfilters.length > 0) {
+          selectedFilters[String(filter.filter)] = filteredSubfilters;
+        }
+      });
   
+      console.log("selectedFilters!!!!")
+      console.log(selectedFilters)
+    
       if (onFilterChange) {
+        // Pass the selectedFilters object directly instead of converting it to a string array
         onFilterChange(selectedFilters);
       }
     }
   };
+  
+  
 
   // Render component
   return (

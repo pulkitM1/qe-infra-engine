@@ -4,7 +4,6 @@ import { ArcElement, Chart, Legend, Tooltip } from 'chart.js';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 
 
-import { LABEL_RECT_COLOR, LABEL_RECT_SIZE } from './charts.constants';
 import { BasicChartDataItem } from '../../util/charts/types/chart';
 
 
@@ -108,7 +107,7 @@ export const DoughnutChart: React.FC<DoughnutChartProps> = ({
             animation: {
               duration: 3000, 
             },
-            cutout: '75%',
+            cutout: '78%',
             plugins: {
               legend: {
                 display: false,
@@ -134,10 +133,10 @@ export const DoughnutChart: React.FC<DoughnutChartProps> = ({
         />
       </div>
       {legend && (
-        <div style={{ maxHeight: '200px', overflowY: 'scroll', marginBottom: '10px' }}>
+        <div style={{ maxHeight: '80px', overflowY: 'scroll', marginBottom: '10px' }}>
           {datasets[0].backgroundColor.map((color, index) => (
             <div key={index} style={{ display: 'flex', alignItems: 'center', marginBottom: '5px' }}>
-              <div style={{ width: '20px', height: '20px', backgroundColor: color, marginRight: '10px' }}></div>
+              <div style={{ width: '20px', height: '7px', backgroundColor: color, marginRight: '10px' }}></div>
               <div className="legend-text" onClick={() => handleLegendClick(index)} style={{ textDecoration: strikeThrough.includes(index) ? 'line-through' : 'none' }}>{labels[index]}</div>
             </div>
           ))}
