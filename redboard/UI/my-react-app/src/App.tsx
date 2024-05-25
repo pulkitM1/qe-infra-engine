@@ -26,16 +26,17 @@ function App() {
   const [color, setColor] = useState(colors[0]);
   const [isDownloading, setIsDownloading] = useState(false);
   const [isOn, setIsOn] = useState('Executors'); 
-  const [page, setPage] = useState(0);
   const [loading, setLoading] = useState(false);
   const [rows, setRows] = useState([]);
   const [filters, setFilters] = useState([]);
+  const [totalPages, setTotalPages]  = useState([]);
+  const [totalRows, setTotalRows]  = useState(0);
   const [image, setImage] = useState(remote); 
   const [selectedFilters, setSelectedFilters] = useState(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true); 
   const [isFiltersLoading, setIsFiltersLoading] = useState(false);
-  
+  const [filterModel, setFilterModel] = useState(null);  
 
   function simulateApiCall(machineType, filters) {
     return new Promise((resolve) => {
@@ -95,21 +96,41 @@ function App() {
     };
 }
 
+const handleExport = () => {
+  setIsDownloading(true);
+  const allRows = rows; // assuming 'rows' contains all data
+  let filteredRows = allRows;
 
-  const handleExport = () => {
-    setIsDownloading(true);
-    simulateApiCall(isOn.toLowerCase(), selectedFilters)
-      .then((data) => {
-        const jsonStr = JSON.stringify(data, null, 2);
-        const blob = new Blob([jsonStr], { type: 'application/json' });
-        const url = URL.createObjectURL(blob);
-        const link = document.createElement('a');
-        link.href = url;
-        link.download = 'data.json';
-        link.click();
-        setIsDownloading(false);
+  if (filterModel) {
+    filteredRows = allRows.filter(row => {
+      return filterModel.items.every(filter => {
+        if (filter.operator === 'equals') {
+          return `${row[filter.field]}` === filter.value;
+        } else if (filter.operator === 'contains') {
+          return `${row[filter.field]}`.includes(filter.value);
+        }
+        return true;
       });
-  };
+    });
+  }
+
+  const csvContent = [table_headers.join(','), ...filteredRows.map(row => {
+    return table_headers.map(header => {
+      const cellValue = row[header];
+      return cellValue !== null && cellValue !== undefined ? cellValue : '';
+    }).join(',');
+  })].join('\n');
+
+  const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+  const url = URL.createObjectURL(blob);
+
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = 'data.csv';
+  link.click();
+  setIsDownloading(false);
+};
+
 
   
   function fetchFilters(machineType) {
@@ -145,7 +166,11 @@ function App() {
     const machineType = isOn.toLowerCase(); 
     fetchFilters(machineType);
   }, [isOn]);
-  
+
+  useEffect(() => {
+    fetchData(0,"a",null); // Load the first page
+  }, []); 
+
   useEffect(() => {
     const interval = setInterval(() => {
       setColor(colors[(colors.indexOf(color) + 1) % colors.length]);
@@ -169,8 +194,8 @@ function App() {
 
   useEffect(() => {
     const machineType = isOn.toLowerCase();
-    fetchData(page, machineType, selectedFilters); 
-  }, [page, isOn, selectedFilters]);
+    fetchData(0, machineType, selectedFilters); 
+  }, [isOn, selectedFilters]);
   
 
   const toggleDrawer = (open: boolean) => (event: React.MouseEvent) => {
@@ -178,6 +203,7 @@ function App() {
   };
 
   const fetchData = async (newPage, machineType, filters) => {
+    console.log("fetch data called!!!!!!")
     setLoading(true);
     
     if (!filters || Object.keys(filters).length === 0) {
@@ -192,8 +218,8 @@ function App() {
       body: JSON.stringify({
         filters: filters,
         fields: table_headers,
-        "per_page": 100,
-        "page": page
+        "per_page": 10000,
+        "page": newPage
       }),
     });
   
@@ -202,10 +228,11 @@ function App() {
     }
   
     const data = await response.json();
-  
-    // Now, instead of creating fake data, we use the actual data from the API
-    // Add a unique id to each row
     const rowsWithIds = data.data.map((row, index) => ({ id: index, ...row }));
+    console.log("logging!!!!")
+    console.log(data.total_pages)
+    setTotalPages(data.total_pages)
+    setTotalRows(data.total_pages * 100)
     setRows(rowsWithIds);
     setLoading(false);
   };
@@ -287,8 +314,7 @@ function App() {
                 )}
               </div>
               <div className="center-line"></div>
-              <DataTable rows={rows} page={page} setPage={setPage} loading={loading} setLoading={setLoading} />
-              </div>
+              <DataTable setFilterModel={setFilterModel} rows={rows} fetchData={fetchData} loading={loading} total_pages={totalPages} totalRows={totalRows}/>    </div>
           </div>
         } />
       </Routes>

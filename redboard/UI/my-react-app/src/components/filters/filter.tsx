@@ -80,12 +80,7 @@ export default function FilterDropdown({ initialSelectedOptions = [], onFilterCh
           selectedFilters[String(filter.filter)] = filteredSubfilters;
         }
       });
-  
-      console.log("selectedFilters!!!!")
-      console.log(selectedFilters)
-    
       if (onFilterChange) {
-        // Pass the selectedFilters object directly instead of converting it to a string array
         onFilterChange(selectedFilters);
       }
     }

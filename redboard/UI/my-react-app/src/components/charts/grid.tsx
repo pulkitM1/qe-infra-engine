@@ -1,10 +1,15 @@
+/**
+ * @file grid.tsx
+ * @author Pulkit Matta
+ * @description This file contains a DataGrid component for displaying data in a grid format.
+ */
+
 import * as React from 'react';
 import { DataGrid } from '@mui/x-data-grid';
 import LinearProgress from '@mui/material/LinearProgress';
 import table_headers from  '../../common/commonConfig'
 
-
-
+// Custom loading overlay for the DataGrid
 function CustomLoadingOverlay() {
   return (
     <GridOverlay>
@@ -15,13 +20,20 @@ function CustomLoadingOverlay() {
   );
 }
 
-const DataTable = React.forwardRef(({ rows, page, setPage, loading }, ref) => {
-  function BoldHeader(props: GridCellParams) {
-    return (
-      <strong>{props.value}</strong>
-    );
-  }
+// Define the props for the DataTable component
+type DataTableProps = {
+  rows: any[];
+  fetchData: (newPage: any, machineType: any, filters: any) => Promise<void>;
+  loading: boolean;
+  total_pages: any[];
+  totalRows: number;
+  setFilterModel: React.Dispatch<React.SetStateAction<any>>;
+};
 
+// Main DataTable component
+const DataTable = React.forwardRef(({ rows, fetchData, loading, totalRows, setFilterModel }: DataTableProps) => {
+
+  // Define columns based on table headers
   const columns = table_headers.map((header: string) => ({
     field: header,
     headerName: header.charAt(0).toUpperCase() + header.slice(1),
@@ -36,9 +48,11 @@ const DataTable = React.forwardRef(({ rows, page, setPage, loading }, ref) => {
     ),
   }));
   
+  // Return the DataGrid component
   return (
     <div style={{ height: 550, width: 1300, border: '0.9px solid black', marginTop: 45, marginBottom: 60 }}>
       <DataGrid
+        onFilterModelChange={(newModel) => setFilterModel(newModel)}
         components={{
           LoadingOverlay: CustomLoadingOverlay,
         }}
@@ -52,9 +66,7 @@ const DataTable = React.forwardRef(({ rows, page, setPage, loading }, ref) => {
         className="myDataGrid"
         rows={rows}
         columns={columns}
-        rowCount={rows.length}
         loading={loading}
-        onPageChange={(newPage) => setPage(newPage)}
       />
     </div>
   );
