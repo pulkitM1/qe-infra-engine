@@ -1,6 +1,9 @@
 import * as React from 'react';
 import { DataGrid } from '@mui/x-data-grid';
 import LinearProgress from '@mui/material/LinearProgress';
+import table_headers from  '../../common/commonConfig'
+
+
 
 function CustomLoadingOverlay() {
   return (
@@ -19,86 +22,19 @@ const DataTable = React.forwardRef(({ rows, page, setPage, loading }, ref) => {
     );
   }
 
-  const columns = [
-    {
-      field: 'ipAddresses',
-      headerName: 'IP Addresses',
-      flex: 1,
-      renderCell: (params) => (
-        <div style={{ paddingLeft: 20 }}>
-          {params.value}
-        </div>
-      ),
-      renderHeader: (params) => (
-        <strong>{params.colDef.headerName}</strong>
-      ),
-    },
-    { 
-      field: 'status', 
-      headerName: 'Status', 
-      flex: 1, 
-      renderCell: (params) => (
-        <div style={{ paddingLeft: 20 }}>
-          {params.value}
-        </div>
-      ),
-      renderHeader: (params) => (
-        <strong>{params.colDef.headerName}</strong>
-      ),
-    },
-    { 
-      field: 'state', 
-      headerName: 'State', 
-      flex: 1, 
-      renderCell: (params) => (
-        <div style={{ paddingLeft: 20 }}>
-          {params.value}
-        </div>
-      ),
-      renderHeader: (params) => (
-        <strong>{params.colDef.headerName}</strong>
-      ),
-    },
-    { 
-      field: 'ram', 
-      headerName: 'RAM', 
-      flex: 1, 
-      renderCell: (params) => (
-        <div style={{ paddingLeft: 20 }}>
-          {params.value}
-        </div>
-      ),
-      renderHeader: (params) => (
-        <strong>{params.colDef.headerName}</strong>
-      ),
-    },
-    { 
-      field: 'disk', 
-      headerName: 'Disk', 
-      flex: 1, 
-      renderCell: (params) => (
-        <div style={{ paddingLeft: 20 }}>
-          {params.value}
-        </div>
-      ),
-      renderHeader: (params) => (
-        <strong>{params.colDef.headerName}</strong>
-      ),
-    },
-    { 
-      field: 'tags', 
-      headerName: 'Tags', 
-      flex: 1, 
-      renderCell: (params) => (
-        <div style={{ paddingLeft: 20 }}>
-          {params.value}
-        </div>
-      ),
-      renderHeader: (params) => (
-        <strong>{params.colDef.headerName}</strong>
-      ),
-    },
-  ];
+  const columns = table_headers.map((header: string) => ({
+    field: header,
+    headerName: header.charAt(0).toUpperCase() + header.slice(1),
+    flex: 1,
+    renderCell: (params) => (
+      <div style={{ paddingLeft: 20 }}>
+        {params.value}
+      </div>
+    ),
+    renderHeader: (params) => (
+      <strong style={{ fontSize: '15px' }}>{params.colDef.headerName}</strong>
+    ),
+  }));
   
   return (
     <div style={{ height: 550, width: 1300, border: '0.9px solid black', marginTop: 45, marginBottom: 60 }}>

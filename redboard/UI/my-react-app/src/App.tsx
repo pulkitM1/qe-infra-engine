@@ -14,6 +14,7 @@ import { HashLoader} from 'react-spinners';
 import CircularProgress from '@mui/material/CircularProgress';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import GamePage from './components/gamepage'; 
+import table_headers from './common/commonConfig'
 
 
 import './App.css'; 
@@ -48,8 +49,6 @@ function App() {
   }
 
   async function fetchApiData(machineType, filters = {}) {
-    console.log("dsdcer")
-    console.log(API_ENDPOINTS.fetchApiData)
 
     // Check if filters is null or empty
     if (!filters || Object.keys(filters).length === 0) {
@@ -80,7 +79,6 @@ function App() {
       }),
     });
 
-    console.log(response)
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
@@ -173,45 +171,45 @@ function App() {
     const machineType = isOn.toLowerCase();
     fetchData(page, machineType, selectedFilters); 
   }, [page, isOn, selectedFilters]);
+  
 
   const toggleDrawer = (open: boolean) => (event: React.MouseEvent) => {
     setDrawerOpen(open);
   };
 
-  const fetchData = (newPage, machineType, filters) => {
+  const fetchData = async (newPage, machineType, filters) => {
     setLoading(true);
     
-    if (!filters || filters.length === 0) {
-      filters = ['DefaultFilter1', 'DefaultFilter2'];
+    if (!filters || Object.keys(filters).length === 0) {
+      filters = {};
+    }
+    const response = await fetch(API_ENDPOINTS.fetchGridData, {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        filters: filters,
+        fields: table_headers,
+        "per_page": 100,
+        "page": page
+      }),
+    });
+  
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
     }
   
-    new Promise((resolve) => {
-      setTimeout(() => {
-        const newRows = Array.from({length: 100}, (_, i) => ({
-          id: newPage * 100 + i,
-          ipAddresses: `192.168.${Math.floor(Math.random() * 255)}.${Math.floor(Math.random() * 255)}`,
-          status: machineType === 'executors' && filters.includes('Active') ? 'Active' : 'Inactive',
-          state: filters.includes('Running') ? 'Running' : 'Stopped',
-          ram: `${Math.floor(Math.random() * 16) + 4}GB`,
-          disk: `${Math.floor(Math.random() * 500) + 500}GB`,
-          tags: ['tag1', 'tag2', 'tag3'], 
-        }));
+    const data = await response.json();
   
-        resolve({
-          rows: newRows,
-          totalCount: 1000, 
-        });
-      }, 9000);
-    })
-    .then(data => {
-      setRows(data.rows);
-      setLoading(false);
-    })
-    .catch(error => {
-      console.error(error);
-      setLoading(false);
-    });
+    // Now, instead of creating fake data, we use the actual data from the API
+    // Add a unique id to each row
+    const rowsWithIds = data.data.map((row, index) => ({ id: index, ...row }));
+    setRows(rowsWithIds);
+    setLoading(false);
   };
+  
   
   const handleToggle = () => {
     setIsOn(isOn === 'Executors' ? 'Remote' : 'Executors');
@@ -221,10 +219,7 @@ function App() {
   };
   
   const handleFilterChange = (selectedOptions) => {
-    console.log("selected filter!!!")
-    console.log(selectedOptions)
     setSelectedFilters(selectedOptions);
-    console.log(selectedOptions); 
   };
   const [chartData1, setChartData1] = useState(null); 
   const [chartData2, setChartData2] = useState(null); 
@@ -280,12 +275,12 @@ function App() {
                   <>
                     <div className="chart-tile">
                       <div className="chart-container" style={{ width: '100%' }}>
-                        <DoughnutChart data={chartData1} title={'States'} />
+                        <DoughnutChart data={chartData1} title={'STATES'} />
                       </div>
                     </div>
                     <div className="chart-tile">
                       <div className="chart-container" style={{ width: '100%' }}>
-                        <DoughnutChart data={chartData2} title={'Tags'} />
+                        <DoughnutChart data={chartData2} title={'TAGS'} />
                       </div>
                     </div>
                   </>

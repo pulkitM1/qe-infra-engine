@@ -86,7 +86,7 @@
 }
 
 .tile-container {
-  width: 20%;
+  width: 45%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -131,7 +131,7 @@
 .header {
   display: flex;
   background: #090909;
-  height: 145px; 
+  height: 135px; 
   width: 100%;
   filter: drop-shadow(0 0 2em #000000aa); 
   border-bottom-left-radius: 50% 20%; 
@@ -157,7 +157,7 @@
 
 .subtitle {
   color: #ffffff;
-  font-size: 15px; 
+  font-size: 16px; 
   width: 100%;
   margin: 0;
   margin-bottom: -5px; 
@@ -168,7 +168,7 @@
 .title {
   color: #ffffff;
   margin: 0;
-  font-size: 40px;
+  font-size: 38px;
   font-weight: normal; 
   text-align: center;
 }

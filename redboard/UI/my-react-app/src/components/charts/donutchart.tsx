@@ -44,7 +44,7 @@ export const DoughnutChart: React.FC<DoughnutChartProps> = ({
   const transformedData = data.map(item => {
     return {
       ...item,
-      displayValue: 1050 * Math.sqrt(item.value) 
+      displayValue:   Math.log(item.value + 1) 
     };
   });
 
@@ -86,8 +86,8 @@ export const DoughnutChart: React.FC<DoughnutChartProps> = ({
   // Component return
   return (
     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' , width: '100%'}}>
-      <div style={{ textAlign: 'center', fontSize: '32px',  fontWeight: 'normal', color: 'black', marginBottom: '10px', textShadow: '2px 2px 4px rgba(0, 0, 0, 0.3)' }}>        
-        {title}
+    <div style={{ textAlign: 'center', fontSize: '22px', fontFamily: 'Arial', fontWeight: 'normal', color: 'black', marginBottom: '10px', textShadow: '2px 2px 4px rgba(0, 0, 0, 0.2)', marginTop: '13px' }}> 
+    {title}
       </div>
       <div style={{ width: '300px', height: '300px', marginBottom: '15px' }}>
         <Doughnut
@@ -133,15 +133,15 @@ export const DoughnutChart: React.FC<DoughnutChartProps> = ({
         />
       </div>
       {legend && (
-        <div style={{ maxHeight: '80px', overflowY: 'scroll', marginBottom: '10px' }}>
-          {datasets[0].backgroundColor.map((color, index) => (
-            <div key={index} style={{ display: 'flex', alignItems: 'center', marginBottom: '5px' }}>
-              <div style={{ width: '20px', height: '7px', backgroundColor: color, marginRight: '10px' }}></div>
-              <div className="legend-text" onClick={() => handleLegendClick(index)} style={{ textDecoration: strikeThrough.includes(index) ? 'line-through' : 'none' }}>{labels[index]}</div>
-            </div>
-          ))}
-        </div>
-      )}
+  <div style={{ maxHeight: '100px', overflowY: 'scroll', marginBottom: '10px', marginLeft: '12px', display: 'flex', flexDirection: 'row', flexWrap: 'wrap' }}>
+    {datasets[0].backgroundColor.map((color, index) => (
+      <div key={index} style={{ display: 'flex', alignItems: 'center', marginBottom: '5px', marginRight: '10px', marginLeft: '10px' }}>
+        <div style={{ width: '20px', height: '10px', backgroundColor: color, marginRight: '10px' }}></div>
+        <div className="legend-text" onClick={() => handleLegendClick(index)} style={{ textDecoration: strikeThrough.includes(index) ? 'line-through' : 'none' , fontSize: '12px'}}>{labels[index]}</div>
+      </div>
+    ))}
+  </div>
+)}
       <div style={{ fontSize: '15px', color: hoveredColor || 'black' , marginBottom: '10px' }}>
         {hoveredValue && <span style={{ fontWeight: 'bold' }}>{hoveredValue}</span>}
       </div>
