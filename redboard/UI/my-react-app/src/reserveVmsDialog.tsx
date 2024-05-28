@@ -37,7 +37,6 @@ const ReserveVmsDialog: React.FC<Props> = ({ open, handleClose }) => {
   };
 
   const handleReserve = () => {
-    console.log(numVms, time, username, os);
     handleClose();
   };
 

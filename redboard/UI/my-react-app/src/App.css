@@ -14,47 +14,48 @@
 }
 
 :root {
-  --color-chart-1: #F44242;
-  --color-chart-2: #519DE9;
-  --color-chart-3: #7CC674;
-  --color-chart-4: #EA5F89;
-  --color-chart-5: #BD7EBE;
-  --color-chart-6: #EF9234;
-  --color-chart-7: #FFC0CB;
-  --color-chart-8: #73C5C5;
-  --color-chart-9: #F6D173;
-  --color-chart-10: #FF5733;
-  --color-chart-11: #6A0573;
-  --color-chart-12: #B6D053;
-  --color-chart-13: #FFD700;
-  --color-chart-14: #DC143C;
-  --color-chart-15: #00FFFF;
-  --color-chart-16: #00008B;
-  --color-chart-17: #008B8B;
-  --color-chart-18: #B8860B;
-  --color-chart-19: #A9A9A9;
-  --color-chart-20: #006400;
-  --color-chart-21: #BDB76B;
-  --color-chart-22: #8B008B;
-  --color-chart-23: #556B2F;
-  --color-chart-24: #FF8C00;
-  --color-chart-25: #9932CC;
-  --color-chart-26: #8B0000;
-  --color-chart-27: #E9967A;
-  --color-chart-28: #8FBC8F;
-  --color-chart-29: #483D8B;
-  --color-chart-30: #2F4F4F;
-  --color-chart-31: #00CED1;
-  --color-chart-32: #9400D3;
-  --color-chart-33: #FF1493;
-  --color-chart-34: #00BFFF;
-  --color-chart-35: #696969;
-  --color-chart-36: #1E90FF;
-  --color-chart-37: #B22222;
-  --color-chart-38: #FFFAF0;
-  --color-chart-39: #228B22;
-  --color-chart-40: #FF00FF;
-}
+  --color-chart-1: hsl(0, 100%, 40%);
+  --color-chart-2: hsl(210, 100%, 40%);
+  --color-chart-3: hsl(120, 60%, 40%);
+  --color-chart-4: hsl(330, 100%, 40%);
+  --color-chart-5: hsl(300, 50%, 40%);
+  --color-chart-6: hsl(30, 100%, 40%);
+  --color-chart-7: hsl(350, 100%, 80%);
+  --color-chart-8: hsl(180, 50%, 40%);
+  --color-chart-9: hsl(50, 100%, 70%);
+  --color-chart-10: hsl(0, 100%, 50%);
+  --color-chart-11: hsl(270, 100%, 20%);
+  --color-chart-12: hsl(80, 70%, 60%);
+  --color-chart-13: hsl(50, 100%, 50%);
+  --color-chart-14: hsl(350, 100%, 40%);
+  --color-chart-15: hsl(180, 100%, 50%);
+  --color-chart-16: hsl(240, 100%, 30%);
+  --color-chart-17: hsl(180, 100%, 30%);
+  --color-chart-18: hsl(45, 100%, 40%);
+  --color-chart-19: hsl(0, 0%, 60%);
+  --color-chart-20: hsl(120, 100%, 20%);
+  --color-chart-21: hsl(45, 60%, 50%);
+  --color-chart-22: hsl(300, 100%, 30%);
+  --color-chart-23: hsl(90, 50%, 20%);
+  --color-chart-24: hsl(30, 100%, 50%);
+  --color-chart-25: hsl(280, 100%, 40%);
+  --color-chart-26: hsl(0, 100%, 30%);
+  --color-chart-27: hsl(15, 100%, 60%);
+  --color-chart-28: hsl(120, 50%, 60%);
+  --color-chart-29: hsl(240, 50%, 30%);
+  --color-chart-30: hsl(180, 50%, 20%);
+  --color-chart-31: hsl(180, 100%, 40%);
+  --color-chart-32: hsl(280, 100%, 40%);
+  --color-chart-33: hsl(330, 100%, 40%);
+  --color-chart-34: hsl(195, 100%, 50%);
+  --color-chart-35: hsl(0, 0%, 40%);
+  --color-chart-36: hsl(210, 100%, 40%);
+  --color-chart-37: hsl(0, 80%, 40%);
+  --color-chart-38: hsl(30, 100%, 90%);
+  --color-chart-39: hsl(120, 60%, 30%);
+  --color-chart-40: hsl(300, 100%, 50%);
+  }
+  
 
 .chart-container {
   height: 400px; 

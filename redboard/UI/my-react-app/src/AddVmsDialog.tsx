@@ -69,7 +69,6 @@ const AddVmsDialog: React.FC<Props> = ({ open, handleClose }) => {
       else{
       setLoading(true);
       setTimeout(() => {
-        console.log(vms);
         handleClose();
         setLoading(false);
       }, 2000);

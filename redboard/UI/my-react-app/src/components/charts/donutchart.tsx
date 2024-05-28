@@ -30,7 +30,7 @@ export const DoughnutChart: React.FC<DoughnutChartProps> = ({
   maintainAspectRatio = true,
 }) => {
 
-  [ArcElement, Tooltip, Legend, ChartDataLabels].forEach((ChartPlugin) => {
+  [ArcElement, Tooltip, Legend ].forEach((ChartPlugin) => {
     Chart.register(ChartPlugin);
   });
 
@@ -59,7 +59,7 @@ export const DoughnutChart: React.FC<DoughnutChartProps> = ({
       const value = data[dataIndex].value;
       const label = labels[dataIndex];
       setHoveredValue(`${label}: ${value}`);
-      return `Value: ${value}`;
+      return `${label}: ${value}`;
     }
     return '';
   };
@@ -84,67 +84,68 @@ export const DoughnutChart: React.FC<DoughnutChartProps> = ({
   };
 
   // Component return
-  return (
-    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' , width: '100%'}}>
+  // Component return
+return (
+  <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' , width: '100%'}}>
     <div style={{ textAlign: 'center', fontSize: '22px', fontFamily: 'Arial', fontWeight: 'normal', color: 'black', marginBottom: '10px', textShadow: '2px 2px 4px rgba(0, 0, 0, 0.2)', marginTop: '13px' }}> 
-    {title}
-      </div>
-      <div style={{ width: '300px', height: '300px', marginBottom: '15px' }}>
-        <Doughnut
-          data={{
-            labels,
-            datasets: [
-              {
-                data: displayData.filter((_, index) => visibleDatasets.includes(index)), 
-                backgroundColor: datasets[0].backgroundColor,
-                borderColor: 'white', 
-                borderWidth: 2, 
-              },
-            ],
-          }}
-          options={{
-            maintainAspectRatio: false,
-            animation: {
-              duration: 3000, 
-            },
-            cutout: '78%',
-            plugins: {
-              legend: {
-                display: false,
-              },
-              tooltip: {
-                boxPadding: 8,
-                backgroundColor: 'black', 
-                titleColor: 'white', 
-                bodyColor: 'white', 
-                callbacks: {
-                  label: customTooltip,
-                },
-              },
-              datalabels: {
-                color: (context) => datasets[0].backgroundColor[context.dataIndex],
-                display: (context) => context.active,
-                align: 'center',
-                anchor: 'center',
-                formatter: (value, context) => `${labels[context.dataIndex]}\n${value}`, 
-              },
-            },
-          }}
-        />
-      </div>
-      {legend && (
-  <div style={{ maxHeight: '100px', overflowY: 'scroll', marginBottom: '10px', marginLeft: '12px', display: 'flex', flexDirection: 'row', flexWrap: 'wrap' }}>
-    {datasets[0].backgroundColor.map((color, index) => (
-      <div key={index} style={{ display: 'flex', alignItems: 'center', marginBottom: '5px', marginRight: '10px', marginLeft: '10px' }}>
-        <div style={{ width: '20px', height: '10px', backgroundColor: color, marginRight: '10px' }}></div>
-        <div className="legend-text" onClick={() => handleLegendClick(index)} style={{ textDecoration: strikeThrough.includes(index) ? 'line-through' : 'none' , fontSize: '12px'}}>{labels[index]}</div>
-      </div>
-    ))}
-  </div>
-)}
-      <div style={{ fontSize: '15px', color: hoveredColor || 'black' , marginBottom: '10px' }}>
-        {hoveredValue && <span style={{ fontWeight: 'bold' }}>{hoveredValue}</span>}
-      </div>
+      {title}
     </div>
-  );
-};
+    <div style={{ width: '300px', height: '300px', marginBottom: '15px' }}>
+      <Doughnut
+        data={{
+          labels,
+          datasets: [
+            {
+              data: displayData.filter((_, index) => visibleDatasets.includes(index)), 
+              backgroundColor: datasets[0].backgroundColor.filter((_, index) => visibleDatasets.includes(index)),
+              borderColor: 'white', 
+              borderWidth: 2, 
+            },
+          ],
+        }}
+        options={{
+          maintainAspectRatio: false,
+          animation: {
+            duration: 3000, 
+          },
+          cutout: '78%',
+          plugins: {
+            legend: {
+              display: false,
+            },
+            tooltip: {
+              boxPadding: 8,
+              backgroundColor: 'black', 
+              titleColor: 'white', 
+              bodyColor: 'white', 
+              callbacks: {
+                label: customTooltip,
+              },
+            },
+            datalabels: {
+              color: (context) => datasets[0].backgroundColor[context.dataIndex],
+              display: (context) => context.active,
+              align: 'center',
+              anchor: 'center',
+              formatter: (value, context) => `${labels[context.dataIndex]}\n${value}`, 
+            },
+          },
+        }}
+      />
+    </div>
+    {legend && (
+      <div style={{ maxHeight: '70px', overflowY: 'scroll', marginBottom: '10px', marginLeft: '18px', display: 'flex', flexDirection: 'row', flexWrap: 'wrap' }}>
+        {datasets[0].backgroundColor.map((color, index) => (
+          <div key={index} style={{ display: 'flex', alignItems: 'center', marginBottom: '5px', marginRight: '10px', marginLeft: '10px' }}>
+            <div style={{ width: '20px', height: '10px', backgroundColor: color, marginRight: '10px' }}></div>
+            <div className="legend-text" style={{ textDecoration: strikeThrough.includes(index) ? 'line-through' : 'none' , fontSize: '12px'}}>{labels[index]}</div>
+          </div>
+        ))}
+      </div>
+    )}
+    <div style={{ fontSize: '15px', color: hoveredColor || 'black' , marginBottom: '10px' }}>
+      {hoveredValue && <span style={{ fontWeight: 'bold' }}>{hoveredValue}</span>}
+    </div>
+  </div>
+);
+}

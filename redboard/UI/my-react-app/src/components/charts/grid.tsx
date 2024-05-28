@@ -40,7 +40,7 @@ const DataTable = React.forwardRef(({ rows, fetchData, loading, totalRows, setFi
     flex: 1,
     renderCell: (params) => (
       <div style={{ paddingLeft: 20 }}>
-        {params.value}
+        {Array.isArray(params.value) ? params.value.join(', ') : params.value}
       </div>
     ),
     renderHeader: (params) => (
@@ -50,7 +50,7 @@ const DataTable = React.forwardRef(({ rows, fetchData, loading, totalRows, setFi
   
   // Return the DataGrid component
   return (
-    <div style={{ height: 550, width: 1300, border: '0.9px solid black', marginTop: 45, marginBottom: 60 }}>
+    <div style={{ height: 650, width: 1300, border: '0.9px solid black', marginTop: 45, marginBottom: 60 }}>
       <DataGrid
         onFilterModelChange={(newModel) => setFilterModel(newModel)}
         components={{

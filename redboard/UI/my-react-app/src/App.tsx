@@ -51,7 +51,6 @@ function App() {
 
   async function fetchApiData(machineType, filters = {}) {
 
-    // Check if filters is null or empty
     if (!filters || Object.keys(filters).length === 0) {
         filters = {};
     }
@@ -85,10 +84,10 @@ function App() {
     }
   
     const data = await response.json();
+    const tag_data = await response_tags.json()
   
-    // Transform the data into the required format
     const doughnutData1 = Object.entries(data).map(([label, value]) => ({ label, value }));
-    const doughnutData2 = Object.entries(data).map(([label, value]) => ({ label, value }));
+    const doughnutData2 = Object.entries(tag_data).map(([label, value]) => ({ label, value }));
 
     return {
       doughnutData1: doughnutData1,
@@ -98,7 +97,7 @@ function App() {
 
 const handleExport = () => {
   setIsDownloading(true);
-  const allRows = rows; // assuming 'rows' contains all data
+  const allRows = rows; 
   let filteredRows = allRows;
 
   if (filterModel) {
@@ -168,7 +167,7 @@ const handleExport = () => {
   }, [isOn]);
 
   useEffect(() => {
-    fetchData(0,"a",null); // Load the first page
+    fetchData(0,"a",null); 
   }, []); 
 
   useEffect(() => {
@@ -203,7 +202,6 @@ const handleExport = () => {
   };
 
   const fetchData = async (newPage, machineType, filters) => {
-    console.log("fetch data called!!!!!!")
     setLoading(true);
     
     if (!filters || Object.keys(filters).length === 0) {
@@ -229,8 +227,7 @@ const handleExport = () => {
   
     const data = await response.json();
     const rowsWithIds = data.data.map((row, index) => ({ id: index, ...row }));
-    console.log("logging!!!!")
-    console.log(data.total_pages)
+
     setTotalPages(data.total_pages)
     setTotalRows(data.total_pages * 100)
     setRows(rowsWithIds);
