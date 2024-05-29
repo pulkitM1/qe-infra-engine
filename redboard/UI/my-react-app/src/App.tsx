@@ -112,7 +112,35 @@ const handleExport = () => {
       });
     });
   }
-
+  
+  const handleAddNode = async () => {
+    const vmsData = {
+      vms: vms.map(vm => ({
+        poolId: vm.poolId,
+        ipaddr: vm.ips,
+        ssh_username: vm.username,
+        ssh_password: vm.password,
+        origin: vm.origin,
+        vm_name: vm.vmName,
+      })),
+    };
+  
+    const response = await fetch('/tasks/add_nodes_task', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(vmsData),
+    });
+  
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+  
+    const data = await response.json();
+    console.log(data);
+  };
+  
   const csvContent = [table_headers.join(','), ...filteredRows.map(row => {
     return table_headers.map(header => {
       const cellValue = row[header];

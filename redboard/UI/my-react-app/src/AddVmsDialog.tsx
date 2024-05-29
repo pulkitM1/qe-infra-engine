@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { API_ENDPOINTS } from './api';
 import { Button, Dialog, DialogTitle, DialogContent, DialogActions, IconButton, InputAdornment, TextField, Box, CircularProgress } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
@@ -30,7 +31,11 @@ const AddVmsDialog: React.FC<Props> = ({ open, handleClose }) => {
     const [openSnackbar, setOpenSnackbar] = useState(false); 
     const [vms, setVms] = useState<VM[]>([{ ips: '', username: '', password: '', vmName: '', poolId: '', origin: '' }]);
     const [loading, setLoading] = useState(false);
-    
+
+
+    const handleAddVm = () => {
+      setVms([...vms, { ips: '', username: '', password: '', vmName: '', poolId: '', origin: '' }]);
+  };
 
     const handleFileUpload = (event) => {
         const file = event.target.files[0];
@@ -43,10 +48,36 @@ const AddVmsDialog: React.FC<Props> = ({ open, handleClose }) => {
         reader.readAsText(file);
       };
 
-    const handleAddVm = () => {
-        setVms([...vms, { ips: '', username: '', password: '', vmName: '', poolId: '', origin: '' }]);
-    };
-
+      const handleAddNode = async () => {
+        const vmsData = {
+          vms: vms.map(vm => ({
+            poolId: [vm.poolId],
+            ipaddr: vm.ips,
+            ssh_username: vm.username,
+            ssh_password: vm.password,
+            origin: vm.origin,
+            vm_name: vm.vmName,
+          })),
+        };
+      
+        const response = await fetch(API_ENDPOINTS.addNodes, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(vmsData),
+        });
+      
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+      
+        const data = await response.json();
+        console.log(data);
+      };
+      
+      
+     
     const handleRemoveVm = (index: number) => {
         const newVms = [...vms];
         newVms.splice(index, 1);
@@ -57,22 +88,6 @@ const AddVmsDialog: React.FC<Props> = ({ open, handleClose }) => {
         const newVms = [...vms];
         newVms[index][event.target.name] = event.target.value;
         setVms(newVms);
-    };
-
-
-    const handleAdd = () => {
-        if (vms.some(vm => Object.values(vm).some(value => value === '')))
-         {
-            alert('Please fill in all fields.');
-            return;
-      }
-      else{
-      setLoading(true);
-      setTimeout(() => {
-        handleClose();
-        setLoading(false);
-      }, 2000);
-    }
     };
 
 
@@ -205,7 +220,7 @@ const AddVmsDialog: React.FC<Props> = ({ open, handleClose }) => {
           </DialogContent>
           <DialogActions sx={{ '& .MuiButton-root': { height: '30px' },  marginRight:'10px', marginTop: '5px', marginBottom: '3px' }}>
             <Button onClick={handleClose}>Cancel</Button>
-            <Button onClick={handleAdd} disabled={loading}>
+            <Button onClick={handleAddNode} disabled={loading}>
               {loading ? <CircularProgress size={24} /> : 'Add'}
             </Button>
             <input
