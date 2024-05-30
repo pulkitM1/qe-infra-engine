@@ -13,9 +13,10 @@ import { useNavigate } from 'react-router-dom';
 interface Props {
   open: boolean;
   toggleDrawer: (open: boolean) => (event: React.KeyboardEvent | React.MouseEvent) => void;
+  setTaskIds: React.Dispatch<React.SetStateAction<string[]>>; 
 }
 
-const AppDrawer: React.FC<Props> = ({ open, toggleDrawer }) => {
+const AppDrawer: React.FC<Props> = ({ open, toggleDrawer, setTaskIds }) => {
   const [addVmsOpen, setAddVmsOpen] = useState(false);
   const [reserveVmsOpen, setReserveVmsOpen] = useState(false);
   const [showGame, setShowGame] = useState(false); 
@@ -80,7 +81,7 @@ const AppDrawer: React.FC<Props> = ({ open, toggleDrawer }) => {
       >
         {list()}
       </Drawer>
-        <AddVmsDialog open={addVmsOpen} handleClose={handleAddVmsClose} />
+        <AddVmsDialog open={addVmsOpen} handleClose={handleAddVmsClose} setTaskIds={setTaskIds} />
       <ReserveVmsDialog open={reserveVmsOpen} handleClose={handleReserveVmsClose} /> 
       {showGame && <SimpleGame />} 
     </div>

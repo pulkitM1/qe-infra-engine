@@ -11,7 +11,8 @@ export default defineConfig({
       '/nodes/query': 'http://127.0.0.1:5000',
       '/nodes/aggregate/fetchPivotAggregates': 'http://127.0.0.1:5000',
       '/nodes/data/fetchData': 'http://127.0.0.1:5000',
-      '/tasks/add_nodes_task': 'http://127.0.0.1:5000'
+      '/tasks/add_nodes_task': 'http://127.0.0.1:5000',
+      '/tasks/get_status':'http://127.0.0.1:5000'
     },
   },
   resolve: {

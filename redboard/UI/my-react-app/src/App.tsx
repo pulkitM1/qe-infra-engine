@@ -37,6 +37,7 @@ function App() {
   const [isLoading, setIsLoading] = useState(true); 
   const [isFiltersLoading, setIsFiltersLoading] = useState(false);
   const [filterModel, setFilterModel] = useState(null);  
+  const [taskIds, setTaskIds] = useState([]);
 
   function simulateApiCall(machineType, filters) {
     return new Promise((resolve) => {
@@ -48,6 +49,7 @@ function App() {
       }, 4000); 
     });
   }
+  
 
   async function fetchApiData(machineType, filters = {}) {
 
@@ -284,7 +286,7 @@ const handleExport = () => {
           <div style={{ width: '100%' }}>
             <Header />
             <div className="switch-container">
-              <AppDrawer open={drawerOpen} toggleDrawer={toggleDrawer} />
+              <AppDrawer open={drawerOpen} toggleDrawer={toggleDrawer} setTaskIds={setTaskIds} />
               <div style={{ marginBottom: '20px' }}> 
                 {isFiltersLoading ? ( 
                   <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: '20px', marginRight: '30px' }}>
@@ -308,7 +310,7 @@ const handleExport = () => {
                 {isDownloading ? <CircularProgress size={20} /> : 'Export'}
               </ExportButton> 
               <div className="separator"></div> 
-              <RunningTasksButton />
+              <RunningTasksButton taskIds={taskIds} />
               <div className="separator"></div> 
               <MobileNavigationButton  style={{ color: 'black', marginRight: '300px' }} toggleDrawer={toggleDrawer}   />
             </div>

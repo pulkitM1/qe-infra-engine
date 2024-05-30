@@ -19,6 +19,7 @@ interface VM {
     vmName: string;
     poolId: string;
     origin: string;
+    setTaskIds: React.Dispatch<React.SetStateAction<string[]>>;
 }
 
 interface Props {
@@ -26,7 +27,7 @@ interface Props {
     handleClose: () => void;
 }
 
-const AddVmsDialog: React.FC<Props> = ({ open, handleClose }) => {
+const AddVmsDialog: React.FC<Props> = ({ open, handleClose, setTaskIds}) => {
 
     const [openSnackbar, setOpenSnackbar] = useState(false); 
     const [vms, setVms] = useState<VM[]>([{ ips: '', username: '', password: '', vmName: '', poolId: '', origin: '' }]);
@@ -60,6 +61,7 @@ const AddVmsDialog: React.FC<Props> = ({ open, handleClose }) => {
         newVms.splice(index, 1);
         setVms(newVms);
     };
+    
 
       const handleAddNode = async () => {
         try {
@@ -90,6 +92,7 @@ const AddVmsDialog: React.FC<Props> = ({ open, handleClose }) => {
           console.log(data);
       
           if (data.task_id) {
+            setTaskIds(prevTaskIds => [...prevTaskIds, data.task_id]);
             setMessage({ type: 'success', text: `Task ID: ${data.task_id}` });
             setTimeout(handleClose, 1000); 
             resetInput(() => setTimeout(handleClose, 1000));
