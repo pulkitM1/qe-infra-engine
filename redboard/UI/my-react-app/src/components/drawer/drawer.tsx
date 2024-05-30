@@ -80,7 +80,7 @@ const AppDrawer: React.FC<Props> = ({ open, toggleDrawer }) => {
       >
         {list()}
       </Drawer>
-      <AddVmsDialog open={addVmsOpen} handleClose={handleAddVmsClose} />
+        <AddVmsDialog open={addVmsOpen} handleClose={handleAddVmsClose} />
       <ReserveVmsDialog open={reserveVmsOpen} handleClose={handleReserveVmsClose} /> 
       {showGame && <SimpleGame />} 
     </div>

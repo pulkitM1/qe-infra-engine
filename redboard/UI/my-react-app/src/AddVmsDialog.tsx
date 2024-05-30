@@ -31,10 +31,15 @@ const AddVmsDialog: React.FC<Props> = ({ open, handleClose }) => {
     const [openSnackbar, setOpenSnackbar] = useState(false); 
     const [vms, setVms] = useState<VM[]>([{ ips: '', username: '', password: '', vmName: '', poolId: '', origin: '' }]);
     const [loading, setLoading] = useState(false);
+    const [message, setMessage] = useState({ type: '', text: '' });
 
 
     const handleAddVm = () => {
       setVms([...vms, { ips: '', username: '', password: '', vmName: '', poolId: '', origin: '' }]);
+  };
+
+  const resetInput = (callback = () => {}) => {
+    setVms([{ ips: '', username: '', password: '', vmName: '', poolId: '', origin: '' }], callback);
   };
 
     const handleFileUpload = (event) => {
@@ -44,47 +49,61 @@ const AddVmsDialog: React.FC<Props> = ({ open, handleClose }) => {
           const data = event.target.result;
           setOpenSnackbar(true);
           setTimeout(handleClose, 3000); 
+          resetInput(); 
+         
         };
         reader.readAsText(file);
       };
 
-      const handleAddNode = async () => {
-        const vmsData = {
-          vms: vms.map(vm => ({
-            poolId: [vm.poolId],
-            ipaddr: vm.ips,
-            ssh_username: vm.username,
-            ssh_password: vm.password,
-            origin: vm.origin,
-            vm_name: vm.vmName,
-          })),
-        };
-      
-        const response = await fetch(API_ENDPOINTS.addNodes, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(vmsData),
-        });
-      
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-      
-        const data = await response.json();
-        console.log(data);
-      };
-      
-      
-     
-    const handleRemoveVm = (index: number) => {
+      const handleRemoveVm = (index: number) => {
         const newVms = [...vms];
         newVms.splice(index, 1);
         setVms(newVms);
     };
 
-    const handleInputChange = (index: number, event: React.ChangeEvent<HTMLInputElement>) => {
+      const handleAddNode = async () => {
+        try {
+          const vmsData = {
+            vms: vms.map(vm => ({
+              poolId: [vm.poolId],
+              ipaddr: vm.ips,
+              ssh_username: vm.username,
+              ssh_password: vm.password,
+              origin: vm.origin,
+              vm_name: vm.vmName,
+            })),
+          };
+          setLoading(true);
+          const response = await fetch(API_ENDPOINTS.addNodes, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(vmsData),
+          });
+      
+          if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+          }
+      
+          const data = await response.json();
+          console.log(data);
+      
+          if (data.task_id) {
+            setMessage({ type: 'success', text: `Task ID: ${data.task_id}` });
+            setTimeout(handleClose, 1000); 
+            resetInput(() => setTimeout(handleClose, 1000));
+          } else {
+            throw new Error('No task_id returned');
+          }
+        } catch (error) {
+          setMessage({ type: 'error', text: `Error: ${error.message}` });
+        } finally {
+          setLoading(false);
+        }
+      };
+
+      const handleInputChange = (index: number, event: React.ChangeEvent<HTMLInputElement>) => {
         const newVms = [...vms];
         newVms[index][event.target.name] = event.target.value;
         setVms(newVms);
@@ -234,9 +253,14 @@ const AddVmsDialog: React.FC<Props> = ({ open, handleClose }) => {
               <Button component="span">Upload JSON/CSV</Button>
             </label>
           </DialogActions>
+          <Snackbar open={message.text !== ''} autoHideDuration={3000} onClose={() => setMessage({ type: '', text: '' })}>
+            <Alert onClose={() => setMessage({ type: '', text: '' })} severity={message.type} sx={{ width: '100%' }}>
+            {message.text}
+              </Alert>
+            </Snackbar>
           <Snackbar
             open={openSnackbar}
-            autoHideDuration={6000}
+            autoHideDuration={2000}
             onClose={() => setOpenSnackbar(false)}
           >
             <Alert onClose={() => setOpenSnackbar(false)} severity="success" sx={{ width: '100%' }}>
