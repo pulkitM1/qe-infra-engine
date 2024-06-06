@@ -8,6 +8,7 @@ import * as React from 'react';
 import { DataGrid } from '@mui/x-data-grid';
 import LinearProgress from '@mui/material/LinearProgress';
 import table_headers from  '../../common/commonConfig'
+import table_headers_slave from '../../common/commonConfigSlave';
 
 // Custom loading overlay for the DataGrid
 function CustomLoadingOverlay() {
@@ -28,13 +29,14 @@ type DataTableProps = {
   total_pages: any[];
   totalRows: number;
   setFilterModel: React.Dispatch<React.SetStateAction<any>>;
+  headers: any[];
 };
 
 // Main DataTable component
-const DataTable = React.forwardRef(({ rows, fetchData, loading, totalRows, setFilterModel }: DataTableProps) => {
+const DataTable = React.forwardRef(({ rows, fetchData, loading, totalRows, setFilterModel, headers }: DataTableProps) => {
 
   // Define columns based on table headers
-  const columns = table_headers.map((header: string) => ({
+  const columns = headers.map((header: string) => ({
     field: header,
     headerName: header.charAt(0).toUpperCase() + header.slice(1),
     flex: 1,

@@ -3,6 +3,7 @@ import Header from './components/charts/header';
 import { DoughnutChart } from './components/charts/donutchart';
 import FilterDropdown from './components/filters/filter';
 import { API_ENDPOINTS } from './api';
+import {API_ENDPOINTS_SLAVE} from './api';
 import remote from './assets/remote.webp'
 import AppDrawer from './components/drawer/drawer';
 import MobileNavigationButton from './components/navigation/mobileNavigationButton';
@@ -15,6 +16,8 @@ import CircularProgress from '@mui/material/CircularProgress';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import GamePage from './components/gamepage'; 
 import table_headers from './common/commonConfig'
+import table_headers_slave from './common/commonConfigSlave'
+
 
 
 import './App.css'; 
@@ -38,6 +41,7 @@ function App() {
   const [isFiltersLoading, setIsFiltersLoading] = useState(false);
   const [filterModel, setFilterModel] = useState(null);  
   const [taskIds, setTaskIds] = useState([]);
+  const [headers, setHeaders] = useState(table_headers);
 
   function simulateApiCall(machineType, filters) {
     return new Promise((resolve) => {
@@ -52,12 +56,18 @@ function App() {
   
 
   async function fetchApiData(machineType, filters = {}) {
-
     if (!filters || Object.keys(filters).length === 0) {
         filters = {};
     }
 
-    const response = await fetch(API_ENDPOINTS.fetchApiData, {
+    console.log("apis!@W!@E@#")
+    console.log(machineType)
+    let apiEndpoint = API_ENDPOINTS;
+    if (machineType === 'remote') {
+        apiEndpoint = API_ENDPOINTS_SLAVE;
+    }
+
+    const response = await fetch(apiEndpoint.fetchApiData, {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -69,7 +79,7 @@ function App() {
       }),
     });
 
-    const response_tags = await fetch(API_ENDPOINTS.fetchApiData, {
+    const response_tags = await fetch(apiEndpoint.fetchApiData, {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -96,6 +106,7 @@ function App() {
       doughnutData2: doughnutData2,
     };
 }
+
 
 const handleExport = () => {
   setIsDownloading(true);
@@ -162,34 +173,40 @@ const handleExport = () => {
 
 
   
-  function fetchFilters(machineType) {
-    setIsFiltersLoading(true);
-    fetch(API_ENDPOINTS.fetchFilters, {
-      method: 'GET',
-      headers: {
-        'Accept': 'application/json',
-      },
-    })
-    .then(response => {
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      return response.json();
-    })
-    .then(data => {
-      const transformedFilters = Object.entries(data).map(([filter, subfilters]) => ({
-        filter,
-        subfilters,
-      }));
-      setFilters(transformedFilters);
-      setIsFiltersLoading(false);
-    })
-    .catch(error => {
-      console.error('Error fetching filters:', error);
-      setIsFiltersLoading(false);
-    });
+function fetchFilters(machineType) {
+  setIsFiltersLoading(true);
+
+  let apiEndpoint = API_ENDPOINTS;
+  if (machineType === 'remote') {
+      apiEndpoint = API_ENDPOINTS_SLAVE;
   }
-  
+
+  fetch(apiEndpoint.fetchFilters, {
+    method: 'GET',
+    headers: {
+      'Accept': 'application/json',
+    },
+  })
+  .then(response => {
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    return response.json();
+  })
+  .then(data => {
+    const transformedFilters = Object.entries(data).map(([filter, subfilters]) => ({
+      filter,
+      subfilters,
+    }));
+    setFilters(transformedFilters);
+    setIsFiltersLoading(false);
+  })
+  .catch(error => {
+    console.error('Error fetching filters:', error);
+    setIsFiltersLoading(false);
+  });
+}
+
 
   useEffect(() => {
     const machineType = isOn.toLowerCase(); 
@@ -197,8 +214,9 @@ const handleExport = () => {
   }, [isOn]);
 
   useEffect(() => {
-    fetchData(0,"a",null); 
-  }, []); 
+    const machineType = isOn.toLowerCase(); 
+    fetchData(0,machineType,null); 
+  }, [isOn]); 
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -237,7 +255,17 @@ const handleExport = () => {
     if (!filters || Object.keys(filters).length === 0) {
       filters = {};
     }
-    const response = await fetch(API_ENDPOINTS.fetchGridData, {
+
+    let apiEndpoint = API_ENDPOINTS;
+    setHeaders(table_headers)
+    let tableHeaders = table_headers;
+    if (machineType === 'remote') {
+        apiEndpoint = API_ENDPOINTS_SLAVE;
+        setHeaders(table_headers_slave)
+        tableHeaders = table_headers_slave;
+    }
+
+    const response = await fetch(apiEndpoint.fetchGridData, {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -245,11 +273,15 @@ const handleExport = () => {
       },
       body: JSON.stringify({
         filters: filters,
-        fields: table_headers,
+        fields: tableHeaders,
         "per_page": 10000,
         "page": newPage
       }),
     });
+
+    console.log("heyy!!kerjnferjfne")
+    console.log(response)
+    console.log(tableHeaders)
   
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
@@ -262,8 +294,8 @@ const handleExport = () => {
     setTotalRows(data.total_pages * 100)
     setRows(rowsWithIds);
     setLoading(false);
-  };
-  
+};
+
   
   const handleToggle = () => {
     setIsOn(isOn === 'Executors' ? 'Remote' : 'Executors');
@@ -341,7 +373,7 @@ const handleExport = () => {
                 )}
               </div>
               <div className="center-line"></div>
-              <DataTable setFilterModel={setFilterModel} rows={rows} fetchData={fetchData} loading={loading} total_pages={totalPages} totalRows={totalRows}/>    </div>
+              <DataTable setFilterModel={setFilterModel} rows={rows} fetchData={fetchData} loading={loading} total_pages={totalPages} totalRows={totalRows}headers={headers}/>    </div>
           </div>
         } />
       </Routes>
