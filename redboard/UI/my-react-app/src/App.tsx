@@ -346,27 +346,27 @@ function fetchFilters(machineType) {
               <div className="separator"></div> 
               <MobileNavigationButton  style={{ color: 'black', marginRight: '300px' }} toggleDrawer={toggleDrawer}   />
             </div>
-            <hr style={{ border: 'none', borderBottom: '2px solid #090909', boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)' }} />
+            <hr style={{ border: 'none', borderBottom: '1.5px solid #555', boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)' }} />
             <div style={{ textAlign: 'left', marginTop: '40px', marginLeft: '0px' }}>
               <a href="https://couchbase.com" target="_blank">
               </a>
             </div>
             <div className="container-parent" style={{ width: '100vw', display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: '80px' }}>
-              <div className="tile-container">
+              <div className="tile-container" style={{ width: '80%', height: 'auto' }}>
                 {isLoading ? ( 
                   <div style={{ width: '300px', height: '370px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                     <HashLoader color={color} loading={isLoading} size={50} />
                   </div>
                 ) : (
                   <>
-                    <div className="chart-tile">
+                    <div className="chart-tile" style={{ width: '50%', height: 'auto' }}>
                       <div className="chart-container" style={{ width: '100%' }}>
-                        <DoughnutChart data={chartData1} title={'STATES'} />
+                        <DoughnutChart data={chartData1} title={'State'} />
                       </div>
                     </div>
-                    <div className="chart-tile">
+                    <div className="chart-tile" style={{ width: '50%', height: 'auto' }}>
                       <div className="chart-container" style={{ width: '100%' }}>
-                        <DoughnutChart data={chartData2} title={'TAGS'} />
+                        <DoughnutChart data={chartData2} title={'Tags'} />
                       </div>
                     </div>
                   </>

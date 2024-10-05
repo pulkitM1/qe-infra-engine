@@ -134,7 +134,7 @@ return (
       />
     </div>
     {legend && (
-      <div style={{ maxHeight: '70px', overflowY: 'scroll', marginBottom: '10px', marginLeft: '18px', display: 'flex', flexDirection: 'row', flexWrap: 'wrap' }}>
+      <div style={{ maxHeight: '70px', overflowY: 'scroll', marginBottom: '10px', marginLeft: '18px', display: 'flex', flexDirection: 'row', flexWrap: 'wrap', scrollbarColor: 'white' }}>
         {datasets[0].backgroundColor.map((color, index) => (
           <div key={index} style={{ display: 'flex', alignItems: 'center', marginBottom: '5px', marginRight: '10px', marginLeft: '10px' }}>
             <div style={{ width: '20px', height: '10px', backgroundColor: color, marginRight: '10px' }}></div>
