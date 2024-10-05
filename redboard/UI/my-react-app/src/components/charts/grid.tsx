@@ -21,7 +21,6 @@ function CustomLoadingOverlay() {
   );
 }
 
-// Define the props for the DataTable component
 type DataTableProps = {
   rows: any[];
   fetchData: (newPage: any, machineType: any, filters: any) => Promise<void>;
@@ -32,7 +31,6 @@ type DataTableProps = {
   headers: any[];
 };
 
-// Main DataTable component
 const DataTable = React.forwardRef(({ rows, fetchData, loading, totalRows, setFilterModel, headers }: DataTableProps) => {
 
   // Define columns based on table headers
@@ -50,10 +48,9 @@ const DataTable = React.forwardRef(({ rows, fetchData, loading, totalRows, setFi
     ),
   }));
   
-  // Return the DataGrid component
   return (
     <div style={{ height: 650, width: 1300, border: '0.9px solid black', marginTop: 45, marginBottom: 60 }}>
-      <DataGrid
+      <DataGrid  className="myDataGrid"
         onFilterModelChange={(newModel) => setFilterModel(newModel)}
         components={{
           LoadingOverlay: CustomLoadingOverlay,

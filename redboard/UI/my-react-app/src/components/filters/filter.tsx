@@ -58,7 +58,7 @@ FilterDropdown.defaultProps = {
   filters: [],
 };
 
-// Main component
+
 export default function FilterDropdown({ initialSelectedOptions = [], onFilterChange, disabled, filters }: FilterDropdownProps) {
   const theme = useTheme();
   const [selectedOptions, setSelectedOptions] = React.useState(initialSelectedOptions);

@@ -373,7 +373,8 @@ function fetchFilters(machineType) {
                 )}
               </div>
               <div className="center-line"></div>
-              <DataTable setFilterModel={setFilterModel} rows={rows} fetchData={fetchData} loading={loading} total_pages={totalPages} totalRows={totalRows}headers={headers}/>    </div>
+              <DataTable setFilterModel={setFilterModel} rows={rows} fetchData={fetchData} loading={loading} total_pages={totalPages} totalRows={totalRows} headers={headers}/>
+              </div>
           </div>
         } />
       </Routes>
