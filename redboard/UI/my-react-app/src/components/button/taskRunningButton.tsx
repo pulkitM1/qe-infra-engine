@@ -131,14 +131,6 @@ function RunningTasksButton() {
         TransitionComponent={Fade} 
         transitionDuration={500}
         PaperProps={{ style: { width: '250px', padding: '10px', position: 'relative' } }} 
-        anchorOrigin={{
-          vertical: 'bottom',
-          horizontal: 'center',
-        }}
-        transformOrigin={{
-          vertical: 'top',
-          horizontal: 'center',
-        }}
         style={{ marginTop: '10px' }} 
       >
         <StyledClearButton size="small" onClick={handleClearTasks}>
