@@ -132,7 +132,7 @@ export const DoughnutChart: React.FC<DoughnutChartProps> = ({
       </div>
       {legend && (
         <div
-          className="scrollable-div" // Add the class name here
+          className="scrollable-div"
           style={{
             maxHeight: '70px',
             overflowY: 'scroll',

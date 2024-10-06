@@ -14,9 +14,8 @@
 }
 
 :root {
-  --color-chart-1: hsl(0, 100%, 40%);
-  --color-chart-2: hsl(210, 100%, 40%);
-  --color-chart-3: hsl(120, 60%, 40%);
+  --color-chart-1: hsl(210, 100%, 40%);
+  --color-chart-2: hsl(120, 60%, 40%);
   --color-chart-4: hsl(330, 100%, 40%);
   --color-chart-5: hsl(300, 50%, 40%);
   --color-chart-6: hsl(30, 100%, 40%);
@@ -24,6 +23,7 @@
   --color-chart-8: hsl(180, 50%, 40%);
   --color-chart-9: hsl(50, 100%, 70%);
   --color-chart-10: hsl(0, 100%, 50%);
+  --color-chart-3: hsl(0, 100%, 40%);
   --color-chart-11: hsl(270, 100%, 20%);
   --color-chart-12: hsl(80, 70%, 60%);
   --color-chart-13: hsl(50, 100%, 50%);
@@ -267,6 +267,16 @@
   margin-right: 200px;
   height: 60px; 
   width: 60px; 
+}
+
+.MuiDataGrid-columnSeparator {
+  visibility: visible !important; /* Ensure the separators are always visible */
+  background-color: black; /* Change this to your desired color */
+  width: 2px; /* Adjust the width of the separator */
+}
+
+.MuiDataGrid-columnHeader {
+  border-bottom: 1px solid black; /* Optional: Add a bottom border to the header */
 }
 
 .center-line {
