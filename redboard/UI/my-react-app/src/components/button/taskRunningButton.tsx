@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { openDB } from 'idb';
 import Button from '@mui/material/Button';
 import Popover from '@mui/material/Popover';
+const apiBaseUrl = import.meta.env.VITE_API_BASE_URL || '/';
 import Fade from '@mui/material/Fade';
 import { styled, keyframes } from '@mui/system';
 import HourglassEmptyIcon from '@mui/icons-material/HourglassEmpty';
@@ -78,9 +79,10 @@ function RunningTasksButton() {
     setTaskStatus(null);
   };
 
+
   async function fetchTaskStatus(taskId) {
     try {
-      const response = await fetch(`http://127.0.0.1:5174/tasks/get_status?task_id=${taskId}`);
+      const response = await fetch(`${apiBaseUrl}tasks/get_status?task_id=${taskId}`);
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
