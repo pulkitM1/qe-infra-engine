@@ -17,11 +17,9 @@ import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import ListSubheader from '@mui/material/ListSubheader';
 
-// Constants for dropdown menu styling
 const ITEM_HEIGHT = 48; 
 const ITEM_PADDING_TOP = 8;
 
-// Props for the dropdown menu
 const MenuProps = {
   PaperProps: {
     style: {
@@ -32,7 +30,6 @@ const MenuProps = {
   },
 };
 
-// Type definitions for props
 interface Filter {
   filter: string;
   subfilters: string[];

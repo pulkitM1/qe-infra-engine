@@ -9,10 +9,10 @@ import { BasicChartDataItem } from '../../util/charts/types/chart';
 
 import { mapBasicDataToChartDataset } from '../../util/charts/mappers';
 
-// Importing plugins
+
 import 'chartjs-plugin-datalabels';
 
-// Defining the props for the DoughnutChart component
+
 type DoughnutChartProps = {
   data: BasicChartDataItem[];
   title: string; 
@@ -21,7 +21,7 @@ type DoughnutChartProps = {
   maintainAspectRatio?: boolean;
 };
 
-// DoughnutChart component definition
+
 export const DoughnutChart: React.FC<DoughnutChartProps> = ({
   data,
   title,
@@ -34,13 +34,11 @@ export const DoughnutChart: React.FC<DoughnutChartProps> = ({
     Chart.register(ChartPlugin);
   });
 
-  // State variables for the component
   const [hoveredColor, setHoveredColor] = useState<string | null>(null);
   const [hoveredValue, setHoveredValue] = useState<number | null>(null);
   const [visibleDatasets, setVisibleDatasets] = useState<number[]>(data.map((_, index) => index));
   const [strikeThrough, setStrikeThrough] = useState<number[]>([]);
 
-  // Transforming the data for display
   const transformedData = data.map(item => {
     return {
       ...item,

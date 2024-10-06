@@ -1,11 +1,11 @@
 import * as React from 'react';
 import { DataGrid } from '@mui/x-data-grid';
 import LinearProgress from '@mui/material/LinearProgress';
-import { GridOverlay } from '@mui/x-data-grid'; // Make sure to import GridOverlay
+import { GridOverlay } from '@mui/x-data-grid'; 
 import table_headers from '../../common/commonConfig';
 import table_headers_slave from '../../common/commonConfigSlave';
 
-// Custom loading overlay for the DataGrid
+
 function CustomLoadingOverlay() {
   return (
     <GridOverlay>
@@ -26,18 +26,17 @@ type DataTableProps = {
 };
 
 const DataTable = React.forwardRef(({ rows, fetchData, loading, totalRows, setFilterModel, headers }: DataTableProps) => {
-  // Define columns based on table headers
   const columns = headers.map((header: string) => ({
     field: header,
     headerName: header.charAt(0).toUpperCase() + header.slice(1),
     flex: 1,
     renderCell: (params) => (
-      <div style={{ paddingLeft: 30, paddingTop: 10, paddingBottom: 10 }}> {/* Consistent padding for cells */}
+      <div style={{ paddingLeft: 30, paddingTop: 10, paddingBottom: 10 }}>
         {Array.isArray(params.value) ? params.value.join(', ') : params.value}
       </div>
     ),
     renderHeader: (params) => (
-      <strong style={{ fontSize: '15px', padding: '10px 30px 10px 20px' }}> {/* Adjust left padding here */}
+      <strong style={{ fontSize: '15px', padding: '10px 30px 10px 20px' }}>
         {params.colDef.headerName}
       </strong>
     ),
@@ -54,7 +53,7 @@ const DataTable = React.forwardRef(({ rows, fetchData, loading, totalRows, setFi
           columnHeader: {
             style: {
               fontWeight: 'bold',
-              padding: '10px 30px', // Adjust padding for the header
+              padding: '10px 30px', 
             },
           },
         }}

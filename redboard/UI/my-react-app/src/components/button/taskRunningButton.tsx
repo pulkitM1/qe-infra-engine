@@ -101,7 +101,7 @@ function RunningTasksButton() {
 
   const handleClearTasks = async () => {
     await clearAllTasksFromDB();
-    setTaskIds([]); // Clear the state as well
+    setTaskIds([]); 
   };
 
   return (
@@ -131,7 +131,6 @@ function RunningTasksButton() {
         TransitionComponent={Fade} 
         transitionDuration={500}
         PaperProps={{ style: { width: '250px', padding: '10px', position: 'relative' } }} 
-        // Add spacing between the button and the popover
         anchorOrigin={{
           vertical: 'bottom',
           horizontal: 'center',
@@ -140,7 +139,7 @@ function RunningTasksButton() {
           vertical: 'top',
           horizontal: 'center',
         }}
-        style={{ marginTop: '10px' }} // Add space between button and popover
+        style={{ marginTop: '10px' }} 
       >
         <StyledClearButton size="small" onClick={handleClearTasks}>
           <ClearIcon fontSize="small" />

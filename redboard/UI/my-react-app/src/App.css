@@ -270,13 +270,13 @@
 }
 
 .MuiDataGrid-columnSeparator {
-  visibility: visible !important; /* Ensure the separators are always visible */
-  background-color: black; /* Change this to your desired color */
-  width: 2px; /* Adjust the width of the separator */
+  visibility: visible !important;
+  background-color: black; 
+  width: 2px; 
 }
 
 .MuiDataGrid-columnHeader {
-  border-bottom: 1px solid black; /* Optional: Add a bottom border to the header */
+  border-bottom: 1px solid black; 
 }
 
 .center-line {
@@ -301,7 +301,7 @@
   padding-left: 20px;
 }
 .legend-text {
-  color: black; /* Change this to the color you want */
+  color: black; 
 }
 .strike-through {
   text-decoration: line-through;
